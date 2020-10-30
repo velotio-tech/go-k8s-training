@@ -70,20 +70,6 @@ func (u *Users) GetUser(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.ParseUint(vars["user"], 10, 64)
 	user := models.GetByID(id)
 	ToJSON(w, user, http.StatusOK)
-
-	/*user := mux.Vars(r)["user"]
-
-	u.l.Println("Handle GET User:", user)
-
-	w.Header().Set("Content-Type", "application/json")
-
-	// send request to orders service to get orders of user specified
-
-	// serialize the list to JSON
-	err := lu.ToJSON(w)
-	if err != nil {
-		http.Error(w, "Unable to marshal json", http.StatusInternalServerError)
-	}*/
 }
 
 // PutUser updates user name &/or email in the database - U
@@ -121,5 +107,5 @@ func (u *Users) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		ToJSON(w, err.Error(), http.StatusUnprocessableEntity)
 		return
 	}
-	w.WriteHeader(http.StatusNoContent)
+	ToJSON(w, "User deleted successfully!", http.StatusCreated)
 }

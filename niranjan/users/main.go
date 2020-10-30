@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"example.com/users/handlers"
+	"example.com/users/models"
 	"github.com/gorilla/mux"
 )
 
@@ -13,8 +14,14 @@ func main() {
 
 	l := log.New(os.Stdout, "users-api ", log.LstdFlags)
 
-	// create the handlers
+	// Creating new table
+	models.TableCreate(l)
+
+	// create user handler
 	uh := handlers.NewUsers(l)
+
+	// create order handler
+	oh := handlers.NewOrders(l)
 
 	router := mux.NewRouter()
 
@@ -26,12 +33,12 @@ func main() {
 	router.HandleFunc("/users/{user}", uh.DeleteUser).Methods("DELETE")
 
 	// orders handlers
-	router.HandleFunc("/users/{user}/orders", uh.PostUserOrder).Methods("POST")
-	router.HandleFunc("/users/{user}/orders", uh.GetUserOrders).Methods("GET")
-	router.HandleFunc("/users/{user}/orders/{order}", uh.GetUserOrder).Methods("GET")
-	router.HandleFunc("/users/{user}/orders/{order}", uh.PutUserOrder).Methods("PUT")
-	router.HandleFunc("/users/{user}/orders/", uh.DeleteUserOrders).Methods("DELETE")
-	router.HandleFunc("/users/{user}/orders/{order}", uh.DeleteUserOrder).Methods("DELETE")
+	router.HandleFunc("/users/{user}/orders", oh.PostUserOrder).Methods("POST")
+	router.HandleFunc("/users/{user}/orders", oh.GetUserOrders).Methods("GET")
+	router.HandleFunc("/users/{user}/orders/{order}", oh.GetUserOrder).Methods("GET")
+	router.HandleFunc("/users/{user}/orders/{order}", oh.PutUserOrder).Methods("PUT")
+	router.HandleFunc("/users/{user}/orders/", oh.DeleteUserOrders).Methods("DELETE")
+	router.HandleFunc("/users/{user}/orders/{order}", oh.DeleteUserOrder).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":5000", router))
 }

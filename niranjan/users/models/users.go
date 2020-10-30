@@ -7,7 +7,9 @@ import (
 
 	"example.com/users/cryptography"
 	"github.com/jinzhu/gorm"
-	//_ "github.com/jinzhu/gorm/dialects/mysql"
+
+	// blank import
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 // User is a struct containing User table fields
@@ -18,6 +20,16 @@ type User struct {
 	Password  string    `gorm:"type:varchar(60); not null" json:"password"`
 	CreatedAt time.Time `gorm:"default:current_timestamp()" json:"created_at"`
 	UpdatedAt time.Time `gorm:"default:current_timestamp()" json:"updated_at"`
+}
+
+// TableCreate Creates new table schema for User table
+func TableCreate(l *log.Logger) {
+	db := Connect()
+	defer db.Close()
+	log.Println("dropping table!")
+	db.Debug().DropTableIfExists(&User{})
+	log.Println("creating table!")
+	db.Debug().AutoMigrate(&User{})
 }
 
 // db credential information
