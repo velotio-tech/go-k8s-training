@@ -15,26 +15,29 @@ func NewOrders(l *log.Logger) *Orders {
 	return &Orders{l}
 }
 
-// PostOrder creates order for specific user - C
-func (u *Users) PostOrder(w http.ResponseWriter, r *http.Request) {
+// PostUserOrder creates order for specific user - C
+func (u *Users) PostUserOrder(w http.ResponseWriter, r *http.Request) {
+	rows := ""
+	// make Post request to Order microservices
+	ToJSON(w, rows, http.StatusOK)
 }
 
-// GetOrder gets specific order of specific user - R
-func (u *Users) GetOrder(w http.ResponseWriter, r *http.Request) {
+// GetUserOrder gets specific order of specific user - R
+func (u *Users) GetUserOrder(w http.ResponseWriter, r *http.Request) {
 }
 
-// GetOrders gets all orders of specific user - R
-func (u *Users) GetOrders(w http.ResponseWriter, r *http.Request) {
+// GetUserOrders gets all orders of specific user - R
+func (u *Users) GetUserOrders(w http.ResponseWriter, r *http.Request) {
 }
 
-// PutOrder updates specific order of specific user - U
-func (u *Users) PutOrder(w http.ResponseWriter, r *http.Request) {
+// PutUserOrder updates specific order of specific user - U
+func (u *Users) PutUserOrder(w http.ResponseWriter, r *http.Request) {
 }
 
-// DeleteOrder deletes specific order of specific user - D
-func (u *Users) DeleteOrder(w http.ResponseWriter, r *http.Request) {
+// DeleteUserOrder deletes specific order of specific user - D
+func (u *Users) DeleteUserOrder(w http.ResponseWriter, r *http.Request) {
 }
 
-// DeleteOrders deletes all order of specific user - D
-func (u *Users) DeleteOrders(w http.ResponseWriter, r *http.Request) {
+// DeleteUserOrders deletes all order of specific user - D
+func (u *Users) DeleteUserOrders(w http.ResponseWriter, r *http.Request) {
 }
