@@ -27,8 +27,8 @@ func main() {
 	router.HandleFunc("/users/{user}/orders", oh.GetUserOrders).Methods("GET")
 	router.HandleFunc("/users/{user}/orders/{order}", oh.GetUserOrder).Methods("GET")
 	router.HandleFunc("/users/{user}/orders/{order}", oh.PutUserOrder).Methods("PUT")
-	router.HandleFunc("/users/{user}/orders/", oh.DeleteUserOrders).Methods("DELETE")
+	router.HandleFunc("/users/{user}/orders", oh.DeleteUserOrders).Methods("DELETE")
 	router.HandleFunc("/users/{user}/orders/{order}", oh.DeleteUserOrder).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":5000", router))
+	log.Fatal(http.ListenAndServe(":6000", router))
 }

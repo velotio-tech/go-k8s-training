@@ -21,9 +21,9 @@ func NewOrders(l *log.Logger) *Orders {
 }
 
 // PostUserOrder creates order for specific user - C
-func (u *Orders) PostUserOrder(w http.ResponseWriter, r *http.Request) {
+func (o *Orders) PostUserOrder(w http.ResponseWriter, r *http.Request) {
 
-	u.l.Println("Handle POST Order")
+	o.l.Println("Handle POST Order")
 
 	vars := mux.Vars(r)
 	userID, _ := strconv.ParseUint(vars["user"], 10, 64)
@@ -45,9 +45,9 @@ func (u *Orders) PostUserOrder(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetUserOrders returns all orders of specific user from the database - R
-func (u *Orders) GetUserOrders(w http.ResponseWriter, r *http.Request) {
+func (o *Orders) GetUserOrders(w http.ResponseWriter, r *http.Request) {
 
-	u.l.Println("Handle GET Orders")
+	o.l.Println("Handle GET Orders")
 
 	vars := mux.Vars(r)
 	userID, _ := strconv.ParseUint(vars["user"], 10, 64)
@@ -56,9 +56,9 @@ func (u *Orders) GetUserOrders(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetUserOrder gets specific order of specified user from the database - R
-func (u *Orders) GetUserOrder(w http.ResponseWriter, r *http.Request) {
+func (o *Orders) GetUserOrder(w http.ResponseWriter, r *http.Request) {
 
-	u.l.Println("Handle GET Order")
+	o.l.Println("Handle GET Order")
 
 	vars := mux.Vars(r)
 	userID, _ := strconv.ParseUint(vars["user"], 10, 64)
@@ -68,9 +68,9 @@ func (u *Orders) GetUserOrder(w http.ResponseWriter, r *http.Request) {
 }
 
 // PutUserOrder updates specific order of specific user - U
-func (u *Orders) PutUserOrder(w http.ResponseWriter, r *http.Request) {
+func (o *Orders) PutUserOrder(w http.ResponseWriter, r *http.Request) {
 
-	u.l.Println("Handle PUT Order")
+	o.l.Println("Handle PUT Order")
 
 	vars := mux.Vars(r)
 	userID, _ := strconv.ParseUint(vars["user"], 10, 64)
@@ -89,36 +89,37 @@ func (u *Orders) PutUserOrder(w http.ResponseWriter, r *http.Request) {
 		ToJSON(w, err.Error(), http.StatusUnprocessableEntity)
 		return
 	}
-	ToJSON(w, rows, http.StatusOK)
+	var response string = " Order updated successfully!"
+	ToJSON(w, strconv.FormatInt(rows, 10)+response, http.StatusOK)
 }
 
 // DeleteUserOrder deletes specific order of specific user - D
-func (u *Orders) DeleteUserOrder(w http.ResponseWriter, r *http.Request) {
+func (o *Orders) DeleteUserOrder(w http.ResponseWriter, r *http.Request) {
 
-	u.l.Println("Handle DELETE Order")
+	o.l.Println("Handle DELETE Order")
 
 	vars := mux.Vars(r)
 	userID, _ := strconv.ParseUint(vars["user"], 10, 64)
 	orderID, _ := strconv.ParseUint(vars["order"], 10, 64)
-	_, err := models.DeleteOrder(userID, orderID)
+	rows, err := models.DeleteOrder(userID, orderID)
 	if err != nil {
 		ToJSON(w, err.Error(), http.StatusUnprocessableEntity)
 		return
 	}
-	ToJSON(w, "Order deleted successfully!", http.StatusCreated)
+	ToJSON(w, strconv.FormatInt(rows, 10)+" Order deleted successfully!", http.StatusCreated)
 }
 
 // DeleteUserOrders deletes all orders of a specific user from the database - D
-func (u *Orders) DeleteUserOrders(w http.ResponseWriter, r *http.Request) {
+func (o *Orders) DeleteUserOrders(w http.ResponseWriter, r *http.Request) {
 
-	u.l.Println("Handle DELETE Orders")
+	o.l.Println("Handle DELETE Orders")
 
 	vars := mux.Vars(r)
 	userID, _ := strconv.ParseUint(vars["user"], 10, 64)
-	_, err := models.DeleteOrders(userID)
+	rows, err := models.DeleteOrders(userID)
 	if err != nil {
 		ToJSON(w, err.Error(), http.StatusUnprocessableEntity)
 		return
 	}
-	ToJSON(w, "Orders deleted successfully!", http.StatusCreated)
+	ToJSON(w, strconv.FormatInt(rows, 10)+" Orders deleted successfully!", http.StatusCreated)
 }

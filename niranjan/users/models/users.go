@@ -14,7 +14,7 @@ import (
 
 // User is a struct containing User table fields
 type User struct {
-	ID        uint32    `gorm:"primary_key;auto_increment" json:"id"`
+	ID        uint64    `gorm:"primary_key;auto_increment" json:"id"`
 	Name      string    `gorm:"type:varchar(20);not null;unique_index" json:"name"`
 	Email     string    `gorm:"type:varchar(40);not null;unique_index" json:"email"`
 	Password  string    `gorm:"type:varchar(60); not null" json:"password"`
@@ -26,9 +26,9 @@ type User struct {
 func TableCreate(l *log.Logger) {
 	db := Connect()
 	defer db.Close()
-	log.Println("dropping table!")
-	db.Debug().DropTableIfExists(&User{})
-	log.Println("creating table!")
+	//log.Println("dropping table!")
+	//db.Debug().DropTableIfExists(&User{})
+	log.Println("Creating/Updating table!")
 	db.Debug().AutoMigrate(&User{})
 }
 

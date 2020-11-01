@@ -78,7 +78,7 @@ func (u *Users) PutUser(w http.ResponseWriter, r *http.Request) {
 	u.l.Println("Handle PUT User")
 
 	vars := mux.Vars(r)
-	id, _ := strconv.ParseUint(vars["user"], 10, 32)
+	id, _ := strconv.ParseUint(vars["user"], 10, 64)
 	body := BodyParser(r)
 	var user models.User
 	err := json.Unmarshal(body, &user)
@@ -86,7 +86,7 @@ func (u *Users) PutUser(w http.ResponseWriter, r *http.Request) {
 		ToJSON(w, err.Error(), http.StatusUnprocessableEntity)
 		return
 	}
-	user.ID = uint32(id)
+	user.ID = uint64(id)
 	rows, err := models.UpdateUser(user)
 	if err != nil {
 		ToJSON(w, err.Error(), http.StatusUnprocessableEntity)

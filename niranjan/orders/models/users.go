@@ -24,9 +24,9 @@ type Order struct {
 func TableCreate(l *log.Logger) {
 	db := Connect()
 	defer db.Close()
-	log.Println("dropping table!")
-	db.Debug().DropTableIfExists(&Order{})
-	log.Println("creating table!")
+	//log.Println("dropping table!")
+	//db.Debug().DropTableIfExists(&Order{})
+	log.Println("Creating/Updating table!")
 	db.Debug().AutoMigrate(&Order{})
 }
 
