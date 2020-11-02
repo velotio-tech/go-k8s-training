@@ -26,7 +26,7 @@ func NewOrders(l *log.Logger) *Orders {
 }
 
 // HOST address & PORT number used by Orders-ms - user req will be forwarded to this URL
-const HOST = "http://localhost:6600/"
+const HOST = "http://ordersapp:6000/"
 
 // PostUserOrder creates order for specific user - C
 func (o *Orders) PostUserOrder(w http.ResponseWriter, r *http.Request) {

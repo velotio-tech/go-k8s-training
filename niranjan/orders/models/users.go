@@ -32,9 +32,9 @@ func TableCreate(l *log.Logger) {
 
 // db credential information
 const (
-	USER   = "root"
+	USER   = "niranjan"
 	PASS   = "niranjan"
-	HOST   = "127.0.0.1"
+	HOST   = "example"
 	PORT   = 3306
 	DBNAME = "velotio"
 )

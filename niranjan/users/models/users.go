@@ -15,7 +15,7 @@ import (
 // User is a struct containing User table fields
 type User struct {
 	ID        uint64    `gorm:"primary_key;auto_increment" json:"id"`
-	Name      string    `gorm:"type:varchar(20);not null;unique_index" json:"name"`
+	Name      string    `gorm:"type:varchar(20);not null" json:"name"`
 	Email     string    `gorm:"type:varchar(40);not null;unique_index" json:"email"`
 	Password  string    `gorm:"type:varchar(60); not null" json:"password"`
 	CreatedAt time.Time `gorm:"default:current_timestamp()" json:"created_at"`
@@ -34,16 +34,16 @@ func TableCreate(l *log.Logger) {
 
 // db credential information
 const (
-	USER   = "root"
+	USER   = "niranjan"
 	PASS   = "niranjan"
-	HOST   = "127.0.0.1"
+	HOST   = "example"
 	PORT   = 3306
 	DBNAME = "velotio"
 )
 
 // Connect uses the above mentioned creds to connect to the velotio DB
 func Connect() *gorm.DB {
-	URL := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", USER, PASS, HOST, PORT, DBNAME)
+	URL := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", USER, PASS, HOST, PORT, DBNAME)
 	db, err := gorm.Open("mysql", URL)
 	if err != nil {
 		log.Fatal(err)
