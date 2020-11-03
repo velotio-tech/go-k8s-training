@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+   name: db-config
+data:
+  host: example
+  dbname: velotio
+  user: niranjan
+  pass: niranjan
+  rootpass: niranjan

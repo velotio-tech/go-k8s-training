@@ -34,7 +34,7 @@ func TableCreate(l *log.Logger) {
 const (
 	USER   = "niranjan"
 	PASS   = "niranjan"
-	HOST   = "example"
+	HOST   = "example-svc"
 	PORT   = 3306
 	DBNAME = "velotio"
 )

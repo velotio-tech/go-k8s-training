@@ -1,0 +1,35 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: users-svc
+  labels:
+    app: users
+spec:
+  ports:
+    - nodePort: 30111
+      port: 5000
+      targetPort: 5000
+  selector:
+    app: users
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users
+spec:
+  selector:
+    matchLabels:
+      app: users
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users
+          image: users:1.0
+          ports:
+            - containerPort: 5000

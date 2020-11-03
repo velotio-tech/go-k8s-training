@@ -24,6 +24,7 @@ type User struct {
 
 // TableCreate Creates new table schema for User table
 func TableCreate(l *log.Logger) {
+	log.Println(USER, PASS, HOST, PORT, DBNAME)
 	db := Connect()
 	defer db.Close()
 	//log.Println("dropping table!")
@@ -36,7 +37,7 @@ func TableCreate(l *log.Logger) {
 const (
 	USER   = "niranjan"
 	PASS   = "niranjan"
-	HOST   = "example"
+	HOST   = "example-svc"
 	PORT   = 3306
 	DBNAME = "velotio"
 )

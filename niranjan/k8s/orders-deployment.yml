@@ -1,0 +1,33 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: orders-svc
+  labels:
+    app: orders
+spec:
+  ports:
+    - port: 6000
+      targetPort: 6000
+  selector:
+    app: orders
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders
+spec:
+  selector:
+    matchLabels:
+      app: orders
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+        - name: orders
+          image: orders:1.0
+          ports:
+            - containerPort: 6000
