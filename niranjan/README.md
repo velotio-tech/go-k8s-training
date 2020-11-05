@@ -31,51 +31,79 @@ MySQL database is used for this application. Other microservices interact with t
 ### Environment Setup:
 
 Create a local minikube cluster
-`minikube start`
+```
+$ minikube start
+```
 
 Use local registry with minikube
-`eval $(minikube docker-env)`
+```
+$ eval $(minikube docker-env)
+```
 
 Pull MySQL image which we will be using for our database
-`docker pull mysql`
+```
+$ docker pull mysql
+```
 
 ### Dockerize the microservices
 
 Dockerize users microservice
-`cd users`
-`docker build -t users:1.0 .`
+```
+$ cd users
+```
+```
+$ docker build -t users:1.0 .
+```
 
 Dockerize orders microservice
-`cd ../orders`
-`docker build -t orders:1.0 .`
+```
+$ cd ../orders
+```
+```
+$ docker build -t orders:1.0 .
+```
 
 ### Deploying the application on minikube using helm
 
-`cd ..`
+```
+$ cd ..
+```
 
 Check if the templates created by helm have all the right values
-`helm template myapp/`
+```
+$ helm template myapp/
+```
 
 To identify any issues before installing the helm chart
-`helm lint myapp/`
+```
+$ helm lint myapp/
+```
 
 To check is anything is wrong with helm chart configuration
-`helm install myapp-release --debug --dry-run myapp/`
+```
+$ helm install myapp-release --debug --dry-run myapp/
+```
 
 Install the helm chart
-`helm install myapp-release myapp/`
+```
+$ helm install myapp-release myapp/
+```
 
 List & check helm release details
-`helm list -a`
+```
+$ helm list -a
+```
 
 Application should be running in minikube now!
 
 ### Accessing the application
 
 Get the IP address to minikube master node
-`kubectl cluster-info`
+```
+$ kubectl cluster-info
+```
 
-Use node-port 30111 with the masterIP to make requests to our application
+Use **node-port 30111** with the masterIP to make requests to our application
 
 ### Request Example
 
