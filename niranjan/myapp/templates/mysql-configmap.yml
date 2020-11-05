@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+   name: {{ .Values.configmap.name }}
+   labels:
+      {{- include "mysql.labels" . | nindent 6 }}
+data:
+   host: {{ .Values.configmap.host }}
+   dbname: {{ .Values.configmap.dbname }}
+   user: {{ .Values.configmap.user }}
+   pass: {{ .Values.configmap.pass }}
+   rootpass: {{ .Values.configmap.rootpass }}

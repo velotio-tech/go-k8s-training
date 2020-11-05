@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.orderssvc.name }}
+  labels:
+    {{- include "orders.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.orderssvc.port }}
+      targetPort: {{ .Values.orderssvc.targetport }}
+  selector:
+    {{- include "orders.labels" . | nindent 4 }}

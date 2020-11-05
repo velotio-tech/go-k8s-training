@@ -1,0 +1,72 @@
+# Default values for myapp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#MySQL ConfigMap detatils
+configmap:
+  name: db-config
+  host: example
+  dbname: velotio
+  user: niranjan
+  pass: niranjan
+  rootpass: niranjan
+
+#MySQL Deployment details
+mysqldeployment:
+  name: example
+  labels:
+    app: orders
+    tier: database
+  strategy: Recreate
+  image: mysql
+  tag: latest
+  port: 3306
+  replicas: 1
+
+#MySQL PVC
+mysqlpvc:
+  name: example-pv-claim
+  storage: 1Gi
+
+#MySQL headless sevice
+mysqlsvc:
+  name: example-svc
+  clusterip: None
+  targetport: 3306
+  port: 3306
+
+#Orders deployment
+ordersdeployment: 
+  restartpolicy: Always
+  labels:
+    app: orders
+  containerport: 6000
+  tag: "1.0"
+  image: orders
+  name: orders
+  replicas: 1
+
+#Orders service
+orderssvc:
+  name: orders-svc
+  port: 6000
+  targetport: 6000
+
+#Users deployment
+usersdeployment:
+  name: users
+  labels:
+    app: orders
+  replicas: 1
+  restartpolicy: Always
+  containerport: 5000
+  image: users
+  tag: "1.0"
+
+#Users service
+userssvc:
+  name: users-svc
+  nodeport: 30111
+  port: 5000
+  targetport: 5000
+  type: NodePort

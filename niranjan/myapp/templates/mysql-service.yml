@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mysqlsvc.name }}  # DNS name
+  labels:
+    {{- include "mysql.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.mysqlsvc.port }}
+      targetPort: {{ .Values.mysqlsvc.targetport }}
+  selector:       # mysql Pod Should contain same labels
+    {{- include "mysql.labels" . | nindent 4 }}
+  clusterIP: {{ .Values.mysqlsvc.clusterip }}  # We Use DNS, Thus ClusterIP is not relevant
