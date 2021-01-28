@@ -1,40 +1,48 @@
-# go-k8s-training
+# Golang & Kubernetes Accelerator Program
 ---
-### Exercise 1
-Topics covered:
-API development and Http communication using client, Json Encoding/decoding, DB connection, Docker , Helm, k8s
-Create a private git repo for this and add a Readme.md explaining the steps to run you application using Docker and k8s
+### Introduction
 
-- Create a small e-commerce backend having two micro-services: `User` and `Order`. For now ignore the authentication part. `User` service only will be exposed to the public and will communicate with the `Order` service for any order related queries.
+An intense program for young software engineers to become a cloud native engineer with technologies, like Golang, Kubernetes, microservices, and cloud platforms. The engineers with some backend development experience, exposure of virtualization and understands the REST APIs have added advantage in this program. 
+To know more about us, please click [here](https://www.velotio.com/cloud-native-accelerator-program)
 
-- You are admin and can perform all operations. Things to consider
-1. Handle CRUD operation of Users and Orders. There can be 1:n mapping between user and orders.
-2. Can only update one order at a time
-3. Can delete one or all orders of a user at a time
-4. Store the data in any DB of your choice
-5. Containerize your services and test it.
-6. Package your application using Helm and deploy on K8s and test it.
-Eg: http://localhost:80/users -> all users
-    http://localhost:80/users/0/orders -> all orders of user 0
-    http://localhost:80/users/0/orders/0 - order 0 of user 0
+This training program is to kick start your journey in golang and kubernetes development. The aim for this program is to give you
+good understanding of golang and cloud native and the best way to do that is by getting your hands dirty. Th
+
+This course gives you outlines that what needs to be learned and it covers most of the scenarios. However you can go beyond this
+course and get a deep dive in the world of containers....
+
 ---
 
-### General Requirement
+### Golang Training
 
-- Comment all the things you are doing
-
-- Code should be structured even though it is an assignment
-
-- write up a simple summary of what you tried to do and how did you do in the commit comments
-
-- Follow some good go repo template like https://github.com/IBM/go-repo-template
+- [Books to Read](https://gobyexample.com/)
+- [Course to Undergo](https://www.youtube.com/watch?v=YS4e4q9oBaU)
+- [Additional course](https://www.udemy.com/course/go-the-complete-developers-guide/?ranMID=39197&ranEAID=JVFxdTr9V80&ranSiteID=JVFxdTr9V80-lbOVF3Q_nKg.LLYxMkWLLg&LSNPUBID=JVFxdTr9V80&utm_source=aff-campaign&utm_medium=udemyads)
+- [Study Material]()
+- [Assignment]()
 ---
 
-### Submission
+### Docker Training
 
-- Fork this repository and work on it
+- [Course to Undergo](https://www.udemy.com/course/learn-docker/)
+- [Assignments]()
 
-- Raise a PR against this repository
-
-- Add/ Tag the reviewer for that PR
 ---
+
+### Kubernetes Training
+
+- [Course to Undergo](https://www.udemy.com/course/certified-kubernetes-application-developer/)
+- [Assignments]()
+
+---
+
+### Contribution.
+
+Please read our submission guidelines at [SUBMISSION.md]() on how to submit your assignments. 
+
+---
+
+### Author
+
+- [Prafull Ladha](https://github.com/prafull01)
+- Abishek Dwivedi
