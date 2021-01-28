@@ -18,7 +18,6 @@ course and get a deep dive in the world of containers....
 - [Books to Read](https://gobyexample.com/)
 - [Course to Undergo](https://www.youtube.com/watch?v=YS4e4q9oBaU)
 - [Additional course](https://www.udemy.com/course/go-the-complete-developers-guide/?ranMID=39197&ranEAID=JVFxdTr9V80&ranSiteID=JVFxdTr9V80-lbOVF3Q_nKg.LLYxMkWLLg&LSNPUBID=JVFxdTr9V80&utm_source=aff-campaign&utm_medium=udemyads)
-- [Study Material]()
 - [Assignment]()
 ---
 
