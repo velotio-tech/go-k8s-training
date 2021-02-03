@@ -7,5 +7,5 @@ the course.
 
 ## Advance Articles on the Kubernetes:
 
-Please read this articles only when you finish the first course because basic understanding of dokcer is needed to
+Please read this articles only when you finish the first course because basic understanding of docker is needed to
 understand the advance concepts.
