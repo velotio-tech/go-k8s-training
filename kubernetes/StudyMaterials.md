@@ -1,3 +1,10 @@
+# Kubernetes Study Material
+
+- [What is Kubernetes](https://www.youtube.com/watch?v=cC46cg5FFAM)
+- [Children's guide to Kubernetes](https://www.youtube.com/watch?v=4ht22ReBjno&t=287s)
+- [Kubernetes Vs. Docker](https://www.youtube.com/watch?v=2vMEQ5zs1ko)
+- [Kubernetes Architecture](https://www.youtube.com/watch?v=8C_SCDbUJTg)
+
 # Kubernetes Course to Undergo
 
 You can find the very good kubernetes course with practice tests [here](https://www.udemy.com/course/certified-kubernetes-application-developer/)
