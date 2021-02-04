@@ -17,30 +17,30 @@ course and get a deep dive in the world of containers....
 
 - [Course to Undergo](https://www.youtube.com/watch?v=YS4e4q9oBaU)
 - [Additional course](https://www.udemy.com/course/go-the-complete-developers-guide/?ranMID=39197&ranEAID=JVFxdTr9V80&ranSiteID=JVFxdTr9V80-lbOVF3Q_nKg.LLYxMkWLLg&LSNPUBID=JVFxdTr9V80&utm_source=aff-campaign&utm_medium=udemyads)
-- [Study materials](https://github.com/velotio-tech/go-k8s-training/blob/go-assignments/golang/StudyMaterials.md)  
-- [Assignment](https://github.com/velotio-tech/go-k8s-training/blob/go-assignments/golang/Assignments.md)
+- [Study materials](https://github.com/velotio-tech/go-k8s-training/blob/main/golang/StudyMaterials.md)  
+- [Assignment](https://github.com/velotio-tech/go-k8s-training/blob/main/golang/Assignments.md)
 
 ---
 
 ### Docker Training
 
 - [Course to Undergo](https://www.udemy.com/course/learn-docker/)
-- [Study materials](https://github.com/velotio-tech/go-k8s-training/blob/go-assignments/docker/StudyMaterials.md)
-- [Assignments](https://github.com/velotio-tech/go-k8s-training/blob/go-assignments/docker/Assignments.md)
+- [Study materials](https://github.com/velotio-tech/go-k8s-training/blob/main/docker/StudyMaterials.md)
+- [Assignments](https://github.com/velotio-tech/go-k8s-training/blob/main/docker/Assignments.md)
 
 ---
 
 ### Kubernetes Training
 
 - [Course to Undergo](https://www.udemy.com/course/certified-kubernetes-application-developer/)
-- [Study materials](https://github.com/velotio-tech/go-k8s-training/blob/go-assignments/kubernetes/StudyMaterials.md)
-- [Assignments](https://github.com/velotio-tech/go-k8s-training/blob/go-assignments/kubernetes/Assignments.md)
+- [Study materials](https://github.com/velotio-tech/go-k8s-training/blob/main/kubernetes/StudyMaterials.md)
+- [Assignments](https://github.com/velotio-tech/go-k8s-training/blob/main/kubernetes/Assignments.md)
 
 ---
 
 ### Contribution.
 
-Please read our submission guidelines at [SUBMISSION.md](https://github.com/velotio-tech/go-k8s-training/blob/go-assignments/SUBMISSION.md) on how to submit your assignments. 
+Please read our submission guidelines at [SUBMISSION.md](https://github.com/velotio-tech/go-k8s-training/blob/main/SUBMISSION.md) on how to submit your assignments. 
 
 ---
 
