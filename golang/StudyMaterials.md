@@ -9,7 +9,7 @@
   This is also a good course from scratch, covers some more grounds with fine-grained topics and test your knowledge
   with MCQ
 
-Above 2 covers will give you the working knowledge of Golang and you can start developing...
+Above 2 courses will give you the working knowledge of Golang and you can start developing...
 
 ---
 
@@ -17,15 +17,18 @@ Above 2 covers will give you the working knowledge of Golang and you can start d
 
 - [Go By Example](https://gobyexample.com/) It covers all the Golang topic's introduction with example programs. It also
   provides GoPlayground(online go environment) to test out your code. As it covers just a little introduction of every
-  topic, should be used as reference or for revision of certain topics.
+  topic, should be used as a reference or for revision of certain topics.
 
 - [Go Dependency Management Using Go Modules](https://blog.golang.org/using-go-modules) It covers how all the
   dependencies are managed in Go, how dependency versioning is done, upgrading dependencies and how to create your own
   Go module.
 
 - [Testing In Go](https://tutorialedge.net/golang/intro-testing-in-go/) It covers basics of Go testing using
-  inbuilt `testing`
-  package, code coverage and benchmarking.
+  inbuilt `testing` package, code coverage and benchmarking.
+  
+- [Go CLI Application Development Using COBRA](https://github.com/spf13/cobra#concepts) There are many packages available that
+  provides an easy-to-use interface to create CLI application. One such package is `cobra`. It's easy to use and github 
+  README.md pretty much every step required to start using it.
 
 ### Advanced Blogs/Articles:
 
