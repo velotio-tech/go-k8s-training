@@ -1,0 +1,3 @@
+Main loop will take input from stdin.
+Branch to the main command_handler or exit
+Main command handler will multiplex based off the commands.
