@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.ordersdeployment.name }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "orders.labels" . | nindent 6 }}
+  replicas: {{ .Values.ordersdeployment.replicas }}
+  template:
+    metadata:
+      labels:
+        {{- include "orders.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Values.ordersdeployment.name }}
+          image: "{{ .Values.ordersdeployment.image }}:{{ .Values.ordersdeployment.tag }}"
+          ports:
+            - containerPort: {{ .Values.ordersdeployment.containerport }}
+      restartPolicy: {{ .Values.ordersdeployment.restartpolicy }}
