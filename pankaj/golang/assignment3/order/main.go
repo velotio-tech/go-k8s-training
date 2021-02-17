@@ -19,6 +19,8 @@ func main() {
 	router.HandleFunc("/api/order/{id}", controllers.GetOrder).Methods("GET")
 	router.HandleFunc("/api/order/{id}", controllers.UpdateOrder).Methods("PUT")
 	router.HandleFunc("/api/order/{id}", controllers.DeleteOrder).Methods("DELETE")
+	router.HandleFunc("/api/users/{userID}/orders", controllers.GetUserOrders).Methods("GET")
+	router.HandleFunc("/api/users/{userID}/orders/{orderID}", controllers.GetUserOrder).Methods("GET")
 
 	port := os.Getenv("PORT")
 	if port == "" {

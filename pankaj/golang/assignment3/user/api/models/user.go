@@ -1,9 +1,8 @@
 package models
 
 import (
-	"strings"
+	"regexp"
 
-	o "github.com/pankaj9310/go-k8s-training/pankaj/golang/assignment3/order/api/models"
 	"github.com/pankaj9310/go-k8s-training/pankaj/golang/assignment3/user/api/utils"
 
 	"github.com/jinzhu/gorm"
@@ -11,17 +10,20 @@ import (
 
 type User struct {
 	gorm.Model
-	Name     string    `json:"name"`
-	Email    string    `json:"email"`
-	Password string    `json:"password"`
-	Orders   []o.Order `gorm:"foreignKey:UserRefer"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
-//Validate incoming user details...
 func (user *User) Validate() (map[string]interface{}, bool) {
 
-	if !strings.Contains(user.Email, "@") {
+	if len(user.Email) == 0 {
 		return utils.Message(false, "Email address is required"), false
+	} else {
+		var emailRegex = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+		if !emailRegex.MatchString(user.Email) {
+			return utils.Message(false, "Email address is not Valid"), false
+		}
 	}
 
 	if len(user.Password) < 6 {

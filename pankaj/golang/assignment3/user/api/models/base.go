@@ -10,6 +10,7 @@ import (
 )
 
 var db *gorm.DB
+var orderURL string
 
 func init() {
 
@@ -17,15 +18,14 @@ func init() {
 	if e != nil {
 		fmt.Print(e)
 	}
-
+	orderURL = os.Getenv("ORDER_BASE_URL")
 	username := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
 	dbHost := os.Getenv("DB_HOST")
-	dbUri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
-	fmt.Println(dbUri)
+	dbURL := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password)
 
-	conn, err := gorm.Open("postgres", dbUri)
+	conn, err := gorm.Open("postgres", dbURL)
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -36,4 +36,8 @@ func init() {
 
 func GetDB() *gorm.DB {
 	return db
+}
+
+func GetOrderURL() string {
+	return orderURL
 }

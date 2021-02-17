@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
+	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -57,4 +59,89 @@ var DeleteUser = func(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	utils.Respond(w, models.DeleteUser(id))
+}
+
+var GetUserOrders = func(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userID := vars["id"]
+	user := models.GetUser(vars["id"])
+	if user == nil {
+		utils.Respond(w, utils.Message(false, "User does not exits"))
+		return
+	}
+	var orderAPI = models.GetOrderURL()
+	resp, err := http.Get(orderAPI + "/api/users/" + userID + "/orders")
+	if err != nil {
+		utils.Respond(w, utils.Message(false, "Order server is not responding. Try again after sometime"))
+		return
+	}
+
+	if resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		utils.Respond(w, utils.Message(false, "Order server is not responding. Try again after sometime"))
+		log.Fatalln(err)
+		return
+	}
+
+	orders := make(map[string]interface{})
+
+	jsonErr := json.Unmarshal(body, &orders)
+
+	if jsonErr != nil {
+		utils.Respond(w, utils.Message(false, "Order server is not responding. Try again after sometime"))
+		log.Fatalln(err)
+	}
+
+	response := utils.Message(true, "User Orders")
+	response["orders"] = orders["order"]
+	utils.Respond(w, response)
+
+}
+
+var GetUserOrder = func(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userID := vars["id"]
+	user := models.GetUser(vars["id"])
+	if user == nil {
+		utils.Respond(w, utils.Message(false, "User does not exits"))
+		return
+	}
+	var orderAPI = models.GetOrderURL()
+	resp, err := http.Get(orderAPI + "/api/users/" + userID + "/orders/" + vars["orderID"])
+	if err != nil {
+		log.Println(err)
+		utils.Respond(w, utils.Message(false, "Order server is not responding. Try again after sometime"))
+		return
+	}
+	log.Println(err)
+	if resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		utils.Respond(w, utils.Message(false, "Order server is not responding. Try again after sometime"))
+
+		return
+	}
+
+	orders := make(map[string]interface{})
+
+	jsonErr := json.Unmarshal(body, &orders)
+
+	if jsonErr != nil {
+		utils.Respond(w, utils.Message(false, "Order server is not responding. Try again after sometime"))
+
+	}
+
+	response := utils.Message(true, "User Orders")
+	response["orders"] = orders["order"]
+	utils.Respond(w, response)
+
 }

@@ -8,9 +8,8 @@ import (
 
 type Order struct {
 	gorm.Model
-	Name string `json:"name"`
-	// UserID uint   `json:"userID"`
-	UserRefer uint `json:"UserRefer"`
+	Name   string `json:"name"`
+	UserID int    `json:"userID"`
 }
 
 func (order *Order) Create() map[string]interface{} {
@@ -25,7 +24,7 @@ func (order *Order) Create() map[string]interface{} {
 	return response
 }
 
-func (order *Order) Update(id string) map[string]interface{} {
+func (order *Order) Update(id int) map[string]interface{} {
 	temp := &Order{}
 
 	err := GetDB().Where("id=?", id).First(temp).Error
@@ -42,7 +41,7 @@ func (order *Order) Update(id string) map[string]interface{} {
 	return response
 }
 
-func GetOrder(id string) *Order {
+func GetOrder(id int) *Order {
 
 	order := &Order{}
 	err := GetDB().Where("id = ?", id).First(order).Error
@@ -53,7 +52,7 @@ func GetOrder(id string) *Order {
 	return order
 }
 
-func DeleteOrder(id string) map[string]interface{} {
+func DeleteOrder(id int) map[string]interface{} {
 	order := &Order{}
 	err := GetDB().Where("id=?", id).Find(order).Error
 	if err != nil {
@@ -62,3 +61,7 @@ func DeleteOrder(id string) map[string]interface{} {
 	GetDB().Delete(order)
 	return utils.Message(true, "Successfully Deleted Order")
 }
+
+// func GetUserOrder(id int) *Order {
+
+// }
