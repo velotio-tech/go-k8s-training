@@ -2,9 +2,8 @@ package commands
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
 	"os"
+	"os/exec"
 	"os/user"
 	"strings"
 
@@ -19,7 +18,7 @@ func CommandHandler(command string, history *helpers.History) string {
 		return getCd(cmd, command)
 
 	case "ls":
-		return getLs()
+		return getLs(cmd[1:])
 
 	case "pwd":
 		return getPwd()
@@ -36,49 +35,57 @@ func GetTerminal() string {
 
 	user, err := user.Current()
 	if err != nil {
-		log.Fatal("Failed to get the current user information.", err)
+		fmt.Println("Failed to get the current user information.", err.Error())
 
 	}
 	hostName, err := os.Hostname()
 	if err != nil {
-		log.Fatal("Failed to get host name.", err)
+		fmt.Println("Failed to get host name.", err.Error())
 
 	}
 	getWd, err := os.Getwd()
 	if err != nil {
-		log.Fatal("Failed to get the current working directory.", err)
+		fmt.Println("Failed to get the current working directory.", err.Error())
 	}
-	cwd := strings.Split(getWd, "/")
-	terminal := fmt.Sprintf("%s@%s:~/%s ", user.Username, hostName, strings.Join(cwd[3:], "/"))
+	terminal := fmt.Sprintf("%s@%s:~%s$ ", user.Username, hostName, getWd)
 	return terminal
 }
 
 func getCd(cmd []string, line string) string {
-	dst := cmd[1]
-
-	if strings.HasPrefix(dst, "~") {
-		dst = strings.Replace(dst, "~", os.Getenv("HOME"), 1)
+	dst := ""
+	if len(cmd) == 1 {
+		dst = os.Getenv("HOME")
+	} else if len(cmd) == 2 {
+		dst = cmd[1]
+		if strings.HasPrefix(dst, "~") {
+			dst = strings.Replace(dst, "~", os.Getenv("HOME"), 1)
+		}
+	} else {
+		fmt.Println("cd: too many arguments")
+		return ""
 	}
 
 	err := os.Chdir(dst)
 
 	if err != nil {
-		return fmt.Sprintf("Command %q not found", line)
+		fmt.Println("Failed to change working directory", err.Error())
 
 	}
 	return ""
 }
 
-func getLs() string {
-	dirs, err := ioutil.ReadDir("./")
+func getLs(command []string) string {
+	var cmd []string
+	if len(command) == 0 {
+		cmd = append(cmd, "./")
+	} else {
+		cmd = append(cmd, command...)
+	}
+	dirs, err := exec.Command("ls", cmd...).Output()
 	if err != nil {
 		return fmt.Sprintf("Failed to get current working dirs %v.", err)
 	}
-	output := ""
-	for _, file := range dirs {
-		output = output + " " + file.Name()
-	}
-	return output
+	return string(dirs[:])
 }
 
 func getHistory(h *helpers.History) string {
