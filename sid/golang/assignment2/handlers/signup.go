@@ -24,7 +24,7 @@ func Signup() func(*cobra.Command, []string) {
 		fmt.Print("Enter password: ")
 		password, _ := reader.ReadString('\n')
 
-		user := app.AddUser(username, password)
+		user := app.AddUser(strings.TrimSpace(username), strings.TrimSpace(password))
 
 		fmt.Println("User created successfully")
 

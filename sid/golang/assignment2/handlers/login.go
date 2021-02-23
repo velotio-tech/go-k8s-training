@@ -27,7 +27,7 @@ func Login() func(*cobra.Command, []string) {
 				fmt.Print("Enter password: ")
 				password, _ := reader.ReadString('\n')
 
-				user, loggedIn = app.AuthenticateUser(username, password)
+				user, loggedIn = app.AuthenticateUser(strings.TrimSpace(username), strings.TrimSpace(password))
 
 				if loggedIn {
 					fmt.Println("User login successful")
