@@ -10,10 +10,6 @@ import (
 	"github.com/farkaskid/go-k8s-training/assignment3/db/helpers"
 )
 
-type Userdata struct {
-	Name string
-}
-
 func UserHandler(resp http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodGet:
@@ -30,9 +26,13 @@ func UserHandler(resp http.ResponseWriter, req *http.Request) {
 }
 
 func createUserHandler(resp http.ResponseWriter, req *http.Request) {
+	type CreateUserdata struct {
+		Name string
+	}
+
 	decoder := json.NewDecoder(req.Body)
 
-	var userdata Userdata
+	var userdata CreateUserdata
 
 	err := decoder.Decode(&userdata)
 
@@ -81,6 +81,11 @@ func getUserHandler(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if len(users) == 0 {
+		http.NotFound(resp, req)
+		return
+	}
+
 	usersJSON, err := json.Marshal(users)
 
 	if err != nil {
@@ -94,7 +99,7 @@ func getUserHandler(resp http.ResponseWriter, req *http.Request) {
 
 func updateUserHandler(resp http.ResponseWriter, req *http.Request) {
 	type userUpdateData struct {
-		Id      int
+		ID      int
 		NewName string
 	}
 
@@ -115,7 +120,7 @@ func updateUserHandler(resp http.ResponseWriter, req *http.Request) {
 
 	defer db.Close()
 
-	err = helpers.UpdateUser(db, updatedUserData.Id, updatedUserData.NewName)
+	err = helpers.UpdateUser(db, updatedUserData.ID, updatedUserData.NewName)
 
 	if err != nil {
 		ErrorHandler(resp, req, err, http.StatusInternalServerError)
@@ -127,5 +132,25 @@ func updateUserHandler(resp http.ResponseWriter, req *http.Request) {
 }
 
 func deleteUserHandler(resp http.ResponseWriter, req *http.Request) {
+	db, err := sql.Open("sqlite3", "./main.db")
+	if err != nil {
+		ErrorHandler(resp, req, err, http.StatusInternalServerError)
+		return
+	}
 
+	id, err := strconv.Atoi(strings.Split(req.URL.Path, "/")[2])
+
+	if err != nil {
+		ErrorHandler(resp, req, err, http.StatusInternalServerError)
+		return
+	}
+	err = helpers.DeleteUser(db, id)
+
+	if err != nil {
+		ErrorHandler(resp, req, err, http.StatusInternalServerError)
+		return
+	}
+
+	resp.WriteHeader(http.StatusOK)
+	resp.Write([]byte("Done!"))
 }

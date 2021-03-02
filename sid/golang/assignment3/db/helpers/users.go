@@ -54,6 +54,13 @@ func UpdateUser(conn *sql.DB, id int, newName string) error {
 	return nil
 }
 
-func DeleteUser(conn *sql.DB, id int) {
+func DeleteUser(conn *sql.DB, id int) error {
+	_, err := conn.Exec(fmt.Sprintf("delete from users where id = %d", id))
 
+	if err != nil {
+		fmt.Println("Failed to delete user cuz", err)
+		return err
+	}
+
+	return nil
 }
