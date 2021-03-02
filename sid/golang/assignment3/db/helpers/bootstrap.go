@@ -4,24 +4,15 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-
-	_ "github.com/mattn/go-sqlite3"
 )
 
-func Bootstrap() {
+func Bootstrap(db *sql.DB) {
 	os.Remove("./main.db")
-
-	db, err := sql.Open("sqlite3", "./main.db")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	defer db.Close()
 
 	// create users table
 	sqlStmt := `create table users (id integer not null primary key, name text); delete from users`
 
-	_, err = db.Exec(sqlStmt)
+	_, err := db.Exec(sqlStmt)
 
 	if err != nil {
 		fmt.Println("Failed to create users table")

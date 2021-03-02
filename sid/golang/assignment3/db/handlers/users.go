@@ -10,22 +10,22 @@ import (
 	"github.com/farkaskid/go-k8s-training/assignment3/db/helpers"
 )
 
-func UserHandler(resp http.ResponseWriter, req *http.Request) {
+func UserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	switch req.Method {
 	case http.MethodGet:
-		getUserHandler(resp, req)
+		getUserHandler(resp, req, db)
 	case http.MethodPost:
-		createUserHandler(resp, req)
+		createUserHandler(resp, req, db)
 	case http.MethodPut:
-		updateUserHandler(resp, req)
+		updateUserHandler(resp, req, db)
 	case http.MethodDelete:
-		deleteUserHandler(resp, req)
+		deleteUserHandler(resp, req, db)
 	default:
 		resp.WriteHeader(http.StatusBadRequest)
 	}
 }
 
-func createUserHandler(resp http.ResponseWriter, req *http.Request) {
+func createUserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	type CreateUserdata struct {
 		Name string
 	}
@@ -41,14 +41,6 @@ func createUserHandler(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	db, err := sql.Open("sqlite3", "./main.db")
-	if err != nil {
-		ErrorHandler(resp, req, err, http.StatusInternalServerError)
-		return
-	}
-
-	defer db.Close()
-
 	err = helpers.CreateUser(db, userdata.Name)
 
 	if err != nil {
@@ -60,13 +52,7 @@ func createUserHandler(resp http.ResponseWriter, req *http.Request) {
 	resp.Write([]byte("Done!"))
 }
 
-func getUserHandler(resp http.ResponseWriter, req *http.Request) {
-	db, err := sql.Open("sqlite3", "./main.db")
-	if err != nil {
-		ErrorHandler(resp, req, err, http.StatusInternalServerError)
-		return
-	}
-
+func getUserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	id, err := strconv.Atoi(strings.Split(req.URL.Path, "/")[2])
 
 	if err != nil {
@@ -97,7 +83,7 @@ func getUserHandler(resp http.ResponseWriter, req *http.Request) {
 	resp.Write([]byte(usersJSON))
 }
 
-func updateUserHandler(resp http.ResponseWriter, req *http.Request) {
+func updateUserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	type userUpdateData struct {
 		ID      int
 		NewName string
@@ -112,14 +98,6 @@ func updateUserHandler(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	db, err := sql.Open("sqlite3", "./main.db")
-	if err != nil {
-		ErrorHandler(resp, req, err, http.StatusInternalServerError)
-		return
-	}
-
-	defer db.Close()
-
 	err = helpers.UpdateUser(db, updatedUserData.ID, updatedUserData.NewName)
 
 	if err != nil {
@@ -131,13 +109,7 @@ func updateUserHandler(resp http.ResponseWriter, req *http.Request) {
 	resp.Write([]byte("Done!"))
 }
 
-func deleteUserHandler(resp http.ResponseWriter, req *http.Request) {
-	db, err := sql.Open("sqlite3", "./main.db")
-	if err != nil {
-		ErrorHandler(resp, req, err, http.StatusInternalServerError)
-		return
-	}
-
+func deleteUserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	id, err := strconv.Atoi(strings.Split(req.URL.Path, "/")[2])
 
 	if err != nil {

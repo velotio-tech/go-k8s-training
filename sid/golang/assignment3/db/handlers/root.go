@@ -1,17 +1,20 @@
 package handlers
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"strings"
 )
 
 type RootHandler struct {
-	PathMapping map[string]func(http.ResponseWriter, *http.Request)
+	PathMapping map[string]func(http.ResponseWriter, *http.Request, *sql.DB)
+	DB          *sql.DB
 }
 
-func (handler *RootHandler) Init() {
-	handler.PathMapping = make(map[string]func(http.ResponseWriter, *http.Request))
+func (handler *RootHandler) Init(db *sql.DB) {
+	handler.PathMapping = make(map[string]func(http.ResponseWriter, *http.Request, *sql.DB))
+	handler.DB = db
 }
 
 func (handler RootHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
@@ -25,5 +28,5 @@ func (handler RootHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request
 		return
 	}
 
-	handlerFunc(resp, req)
+	handlerFunc(resp, req, handler.DB)
 }
