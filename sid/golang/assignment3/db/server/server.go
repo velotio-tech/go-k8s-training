@@ -13,6 +13,7 @@ func New(port int, db *sql.DB) *http.Server {
 	rootHandler.Init(db)
 
 	rootHandler.PathMapping["users"] = handlers.UserHandler
+	rootHandler.PathMapping["orders"] = handlers.OrderHandler
 
 	return &http.Server{
 		Addr:    fmt.Sprintf(":%d", port),
