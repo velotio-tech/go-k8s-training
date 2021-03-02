@@ -1,20 +1,21 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/farkaskid/go-k8s-training/assignment3/db/handlers"
 )
 
 func New(port int) *http.Server {
-	mux := http.NewServeMux()
+	rootHandler := handlers.RootHandler{}
+	rootHandler.Init()
 
-	mux.HandleFunc("/hello", handlers.Hello)
-	mux.HandleFunc("/users", handlers.CreateUserHandler)
+	rootHandler.PathMapping["hello"] = handlers.Hello
+	rootHandler.PathMapping["users"] = handlers.UserHandler
 
 	return &http.Server{
-		Addr:    ":" + strconv.Itoa(port),
-		Handler: mux,
+		Addr:    fmt.Sprintf(":%d", port),
+		Handler: rootHandler,
 	}
 }
