@@ -43,8 +43,15 @@ func GetUser(conn *sql.DB, id int) (map[int]string, error) {
 	return users, nil
 }
 
-func UpdateUser(conn *sql.DB, newName string) {
+func UpdateUser(conn *sql.DB, id int, newName string) error {
+	_, err := conn.Exec(fmt.Sprintf("update users set name = '%s' where id = %d", newName, id))
 
+	if err != nil {
+		fmt.Println("Failed to update user cuz", err)
+		return err
+	}
+
+	return nil
 }
 
 func DeleteUser(conn *sql.DB, id int) {

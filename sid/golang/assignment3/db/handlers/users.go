@@ -37,17 +37,13 @@ func createUserHandler(resp http.ResponseWriter, req *http.Request) {
 	err := decoder.Decode(&userdata)
 
 	if err != nil {
-		resp.WriteHeader(http.StatusInternalServerError)
-		resp.Write([]byte("Failed to decode user data: " + err.Error()))
-
+		ErrorHandler(resp, req, err, http.StatusInternalServerError)
 		return
 	}
 
 	db, err := sql.Open("sqlite3", "./main.db")
 	if err != nil {
-		resp.WriteHeader(http.StatusInternalServerError)
-		resp.Write([]byte("Failed to establish db connection"))
-
+		ErrorHandler(resp, req, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -56,9 +52,7 @@ func createUserHandler(resp http.ResponseWriter, req *http.Request) {
 	err = helpers.CreateUser(db, userdata.Name)
 
 	if err != nil {
-		resp.WriteHeader(http.StatusInternalServerError)
-		resp.Write([]byte("Failed to create user"))
-
+		ErrorHandler(resp, req, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -99,7 +93,37 @@ func getUserHandler(resp http.ResponseWriter, req *http.Request) {
 }
 
 func updateUserHandler(resp http.ResponseWriter, req *http.Request) {
+	type userUpdateData struct {
+		Id      int
+		NewName string
+	}
 
+	var updatedUserData userUpdateData
+	decoder := json.NewDecoder(req.Body)
+
+	err := decoder.Decode(&updatedUserData)
+	if err != nil {
+		ErrorHandler(resp, req, err, http.StatusInternalServerError)
+		return
+	}
+
+	db, err := sql.Open("sqlite3", "./main.db")
+	if err != nil {
+		ErrorHandler(resp, req, err, http.StatusInternalServerError)
+		return
+	}
+
+	defer db.Close()
+
+	err = helpers.UpdateUser(db, updatedUserData.Id, updatedUserData.NewName)
+
+	if err != nil {
+		ErrorHandler(resp, req, err, http.StatusInternalServerError)
+		return
+	}
+
+	resp.WriteHeader(http.StatusOK)
+	resp.Write([]byte("Done!"))
 }
 
 func deleteUserHandler(resp http.ResponseWriter, req *http.Request) {
