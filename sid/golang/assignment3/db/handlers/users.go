@@ -79,6 +79,7 @@ func getUserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 		return
 	}
 
+	resp.Header().Set("Content-Type", "application/json")
 	resp.WriteHeader(http.StatusOK)
 	resp.Write([]byte(usersJSON))
 }

@@ -62,5 +62,12 @@ func DeleteUser(conn *sql.DB, id int) error {
 		return err
 	}
 
+	_, err = conn.Exec(fmt.Sprintf("delete from users_orders_mapping where user_id = %d", id))
+
+	if err != nil {
+		fmt.Println("Failed to delete user order mapping cuz", err)
+		return err
+	}
+
 	return nil
 }
