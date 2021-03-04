@@ -12,6 +12,7 @@ func New(port int) *http.Server {
 	rootHandler.Init()
 
 	rootHandler.PathMapping["users"] = handlers.UserHandler
+	rootHandler.PathMapping["orders"] = handlers.OrderHandler
 
 	return &http.Server{
 		Addr:    fmt.Sprintf(":%d", port),
