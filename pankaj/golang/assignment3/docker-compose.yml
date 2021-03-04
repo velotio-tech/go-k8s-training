@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  db-postgres:
+    image: postgres:latest
+    container_name: full_db_postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_HOST: ${DB_HOST}
+    ports:
+      - '5432:5432'
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+    networks:
+      - ecommerce
+  user:
+
+    build: user/.
+    depends_on:
+      - db-postgres
+    networks:
+      - ecommerce
+    ports:
+      - "8000:8000"
+    restart: on-failure
+  
+  order:
+    build: order/.
+    depends_on:
+      - db-postgres
+    ports:
+      - "8001:8001"
+    networks: 
+      - ecommerce
+    restart: on-failure
+
+volumes:
+  database_postgres:
+
+networks:
+  ecommerce:
+    driver: bridge
