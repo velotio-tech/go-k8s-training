@@ -15,7 +15,7 @@ func Bootstrap(db *sql.DB) {
 	_, err := db.Exec(sqlStmt)
 
 	if err != nil {
-		fmt.Println("Failed to create users table")
+		fmt.Println("Failed to create users table cuz", err)
 	}
 
 	// create orders table

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/farkaskid/go-k8s-training/assignment3/orders/helpers"
+	"github.com/farkaskid/go-k8s-training/assignment3/users/helpers"
 )
 
 func OrderHandler(resp http.ResponseWriter, req *http.Request) {
