@@ -15,6 +15,8 @@ func (handler *RootHandler) Init() {
 }
 
 func (handler RootHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
+	fmt.Println("Request:", req.Method, "on", req.URL)
+
 	pathChunks := strings.Split(strings.TrimSpace(req.URL.Path), "/")
 
 	handlerFunc, present := handler.PathMapping[pathChunks[1]]
