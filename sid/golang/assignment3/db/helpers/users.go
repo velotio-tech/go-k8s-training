@@ -71,3 +71,112 @@ func DeleteUser(conn *sql.DB, id int) error {
 
 	return nil
 }
+
+func GetUsers(conn *sql.DB, IDs []int) (map[int]string, error) {
+	stmt := "select id, name from users where id in ( "
+
+	for _, id := range IDs {
+		stmt += fmt.Sprintf("%d, ", id)
+	}
+
+	stmt = stmt[:len(stmt)-2]
+
+	rows, err := conn.Query(stmt + " )")
+	users := make(map[int]string)
+
+	if err != nil {
+		fmt.Println("Failed to get user cuz", err)
+		return users, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var details string
+		var id int
+		err = rows.Scan(&id, &details)
+
+		if err != nil {
+			fmt.Println("Failed to populate user cuz", err)
+			return users, err
+		}
+
+		users[id] = details
+	}
+
+	return users, nil
+}
+
+func GetAllUsers(conn *sql.DB) (map[int]string, error) {
+	rows, err := conn.Query("select id, name from users")
+	users := make(map[int]string)
+
+	if err != nil {
+		fmt.Println("Failed to get user cuz", err)
+		return users, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var details string
+		var id int
+		err = rows.Scan(&id, &details)
+
+		if err != nil {
+			fmt.Println("Failed to populate user cuz", err)
+			return users, err
+		}
+
+		users[id] = details
+	}
+
+	return users, nil
+}
+
+func DeleteUsers(conn *sql.DB, IDs []int) error {
+	stmt := "delete from users where id in ( "
+
+	for _, id := range IDs {
+		stmt += fmt.Sprintf("%d, ", id)
+	}
+
+	stmt = stmt[:len(stmt)-2]
+
+	_, err := conn.Exec(stmt + " )")
+
+	if err != nil {
+		fmt.Println("Failed to delete user cuz", err)
+		return err
+	}
+
+	stmt = "delete from users_users_mapping where user_id in ( "
+
+	for _, id := range IDs {
+		stmt += fmt.Sprintf("%d, ", id)
+	}
+
+	stmt = stmt[:len(stmt)-2]
+
+	_, err = conn.Exec(stmt + " )")
+
+	return nil
+}
+
+func DeleteAllUsers(conn *sql.DB) error {
+	_, err := conn.Exec("delete from users")
+
+	if err != nil {
+		fmt.Println("Failed to delete user cuz", err)
+		return err
+	}
+
+	_, err = conn.Exec("delete from users_users_mapping")
+
+	if err != nil {
+		fmt.Println("Failed to delete user cuz", err)
+		return err
+	}
+
+	return nil
+}

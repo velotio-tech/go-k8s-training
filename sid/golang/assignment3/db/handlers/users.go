@@ -53,21 +53,41 @@ func createUserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) 
 }
 
 func getUserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
-	id, err := strconv.Atoi(strings.Split(req.URL.Path, "/")[2])
+	var users map[int]string
+	var err error
+	var singleRequest bool
+
+	if strings.HasSuffix(req.URL.Path, "/users") || strings.HasSuffix(req.URL.Path, "/users/") {
+		idInts, err := helpers.GetIDs(req)
+
+		if err != nil {
+			ErrorHandler(resp, req, err, http.StatusBadRequest)
+			return
+		}
+
+		if len(idInts) == 0 {
+			users, err = helpers.GetAllUsers(db)
+		} else {
+			users, err = helpers.GetUsers(db, idInts)
+		}
+	} else {
+		singleRequest = true
+		id, err := strconv.Atoi(strings.Split(req.URL.Path, "/")[2])
+
+		if err != nil {
+			ErrorHandler(resp, req, err, http.StatusBadRequest)
+			return
+		}
+
+		users, err = helpers.GetUser(db, id)
+	}
 
 	if err != nil {
 		ErrorHandler(resp, req, err, http.StatusInternalServerError)
 		return
 	}
 
-	users, err := helpers.GetUser(db, id)
-
-	if err != nil {
-		ErrorHandler(resp, req, err, http.StatusInternalServerError)
-		return
-	}
-
-	if len(users) == 0 {
+	if len(users) == 0 && singleRequest {
 		http.NotFound(resp, req)
 		return
 	}
@@ -111,13 +131,31 @@ func updateUserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) 
 }
 
 func deleteUserHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
-	id, err := strconv.Atoi(strings.Split(req.URL.Path, "/")[2])
+	var err error
 
-	if err != nil {
-		ErrorHandler(resp, req, err, http.StatusInternalServerError)
-		return
+	if strings.HasSuffix(req.URL.Path, "/orders") || strings.HasSuffix(req.URL.Path, "/orders/") {
+		idInts, err := helpers.GetIDs(req)
+
+		if err != nil {
+			ErrorHandler(resp, req, err, http.StatusBadRequest)
+			return
+		}
+
+		if len(idInts) == 0 {
+			err = helpers.DeleteAllUsers(db)
+		} else {
+			err = helpers.DeleteUsers(db, idInts)
+		}
+	} else {
+		id, err := strconv.Atoi(strings.Split(req.URL.Path, "/")[2])
+
+		if err != nil {
+			ErrorHandler(resp, req, err, http.StatusBadRequest)
+			return
+		}
+
+		err = helpers.DeleteUser(db, id)
 	}
-	err = helpers.DeleteUser(db, id)
 
 	if err != nil {
 		ErrorHandler(resp, req, err, http.StatusInternalServerError)

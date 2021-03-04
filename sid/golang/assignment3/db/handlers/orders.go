@@ -59,7 +59,7 @@ func getOrderHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	var singleRequest bool
 
 	if strings.HasSuffix(req.URL.Path, "/orders") || strings.HasSuffix(req.URL.Path, "/orders/") {
-		idInts, err := getIDs(req)
+		idInts, err := helpers.GetIDs(req)
 
 		if err != nil {
 			ErrorHandler(resp, req, err, http.StatusBadRequest)
@@ -135,7 +135,7 @@ func deleteOrderHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB)
 	var err error
 
 	if strings.HasSuffix(req.URL.Path, "/orders") || strings.HasSuffix(req.URL.Path, "/orders/") {
-		idInts, err := getIDs(req)
+		idInts, err := helpers.GetIDs(req)
 
 		if err != nil {
 			ErrorHandler(resp, req, err, http.StatusBadRequest)
@@ -165,27 +165,4 @@ func deleteOrderHandler(resp http.ResponseWriter, req *http.Request, db *sql.DB)
 
 	resp.WriteHeader(http.StatusOK)
 	resp.Write([]byte("Done!"))
-}
-
-func getIDs(req *http.Request) ([]int, error) {
-	queryParams := req.URL.Query()
-
-	ids, ok := queryParams["ids"]
-	var idInts []int
-
-	if !ok {
-		return idInts, nil
-	} else {
-		idInts = make([]int, len(ids))
-		for index, id := range ids {
-			idInt, err := strconv.Atoi(id)
-
-			if err != nil {
-				return idInts, err
-			}
-
-			idInts[index] = idInt
-		}
-		return idInts, nil
-	}
 }
