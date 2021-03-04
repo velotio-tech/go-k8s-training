@@ -4,8 +4,8 @@ import (
 	"net/http"
 )
 
-const basePathDB = "http://localhost:2222"
-const basePathOrders = "http://localhost:2223"
+const basePathDB = "http://db:2222"
+const basePathOrders = "http://orders:2223"
 
 func DuplicateRequest(req *http.Request) (*http.Request, error) {
 	queryString := req.URL.Query().Encode()

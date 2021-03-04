@@ -1,1 +1,20 @@
-# TODO
+version: '3'
+
+services:
+
+    db:
+        build: ./db 
+        volumes: 
+            - ./database:/database
+        
+    orders:
+        build: ./orders
+        depends_on: 
+            - db
+
+    users:
+        build: ./users 
+        ports: 
+            - "2224:2224"
+        depends_on: 
+            - db

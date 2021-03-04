@@ -4,7 +4,7 @@ import (
 	"net/http"
 )
 
-const basePath = "http://localhost:2222"
+const basePath = "http://db:2222"
 
 func DuplicateRequest(req *http.Request) (*http.Request, error) {
 	queryString := req.URL.Query().Encode()
