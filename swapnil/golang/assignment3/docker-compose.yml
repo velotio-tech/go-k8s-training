@@ -1,0 +1,19 @@
+version: "3"
+services: 
+  mypostgres:
+    image: postgres:alpine
+    restart: always
+    environment: 
+      POSTGRES_PASSWORD: postgres
+
+  service_order:
+    build: ./service_order
+    depends_on: 
+      - mypostgres
+  
+  service_user:
+    build: ./service_user
+    depends_on: 
+      - mypostgres
+    ports: 
+      - 8010:8010
