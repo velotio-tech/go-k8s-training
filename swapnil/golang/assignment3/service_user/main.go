@@ -5,7 +5,9 @@ package main
 import "os"
 
 func main() {
+	// create new app
 	a := App{}
+	// initialize the app and run it
 	a.Initialize(
 		os.Getenv("APP_DB_HOST"),
 		os.Getenv("APP_DB_USERNAME"),

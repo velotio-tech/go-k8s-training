@@ -5,6 +5,7 @@ package main
 import "os"
 
 func main() {
+	// create a App instance, get database config from env and run the service
 	a := App{}
 	a.Initialize(
 		os.Getenv("APP_DB_HOST"),
