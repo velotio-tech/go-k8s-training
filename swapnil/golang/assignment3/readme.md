@@ -23,7 +23,7 @@ Api will be available at http://localhost:8010
 Consumes json produces json
 
 
-1. Get list of users
+# 1. Get list of users
 
 **URL** : `/users`
 
@@ -52,7 +52,7 @@ Consumes json produces json
 ]
 ```
 
-2. Get a user
+# 2. Get a user
 
 **URL** : `/users/<id:int>`
 
@@ -81,7 +81,7 @@ Consumes json produces json
 ```
 
 
-3. Create a user
+# 3. Create a user
 
 **URL** : `/users`
 
@@ -123,7 +123,7 @@ Consumes json produces json
 * name and email is required
 
 
-4. Update a user
+# 4. Update a user
 
 **URL** : `/users/<id:int>`
 
@@ -164,7 +164,7 @@ Consumes json produces json
 
 * name and email is required
 
-5. Delete a user
+# 5. Delete a user
 
 **URL** : `/users/<id:int>`
 
@@ -187,7 +187,7 @@ Consumes json produces json
 }
 ```
 
-6. Get list of orders of a user
+# 6. Get list of orders of a user
 
 **URL** : `/users/<userid:int>/orders`
 
@@ -229,7 +229,7 @@ Consumes json produces json
     ]
 }
 ```
-7. Get a order
+# 7. Get a order
 
 **URL** : `/users/<userid:int>/orders/<orderid:int>`
 
@@ -259,7 +259,7 @@ Consumes json produces json
 }
 ```
 
-8. Create a order
+# 8. Create a order
 
 **URL** : `/users/<userid:int>/orders`
 
@@ -303,7 +303,7 @@ Consumes json produces json
 
 * in current version one order can only have one item.
 
-9. Update a order
+# 9. Update a order
 
 **URL** : `/users/<userid:int>/orders/<orderid:int>`
 
@@ -343,7 +343,7 @@ Consumes json produces json
 }
 ```
 
-10. Delete a order
+# 10. Delete a order
 
 **URL** : `/users/<userid:int>/orders/<orderid:int>`
 
@@ -367,7 +367,7 @@ Consumes json produces json
 ```
 
 
-11. Delete all orders of a user
+# 11. Delete all orders of a user
 
 **URL** : `/users/<userid:int>/orders`
 
