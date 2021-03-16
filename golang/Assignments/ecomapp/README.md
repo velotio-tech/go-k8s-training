@@ -15,8 +15,9 @@ export DBPASS=postgres
 
 export DBNAME=postgres
 
-export ORDERSERVICEURL="localhost:8001"
+export ORDERSERVICEHOST=localhost
 
+export ORDERSERVICEPORT=8001
 
 ## start order service
 `cd src/orders/ && go run api.go`
@@ -36,3 +37,7 @@ note down the user_id which will be in response
 
 ### place order
 `curl localhost:8000/api/users/placeorder -d '{"item":"milkshake", "user":"<< user_id >>"}'`
+
+## get orders
+`curl localhost:8000/api/users/<<user_id>>/orders`
+ 

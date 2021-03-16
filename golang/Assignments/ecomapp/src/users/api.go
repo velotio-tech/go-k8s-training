@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -17,12 +18,13 @@ import (
 var db *sql.DB
 
 const (
-	dbhost          = "DBHOST"
-	dbport          = "DBPORT"
-	dbuser          = "DBUSER"
-	dbpass          = "DBPASS"
-	dbname          = "DBNAME"
-	orderServiceUrl = "ORDERSERVICEURL"
+	dbhost           = "DBHOST"
+	dbport           = "DBPORT"
+	dbuser           = "DBUSER"
+	dbpass           = "DBPASS"
+	dbname           = "DBNAME"
+	orderServiceHost = "ORDERSERVICEHOST"
+	orderServicePort = "ORDERSERVICEPORT"
 )
 
 func initDb() {
@@ -37,9 +39,18 @@ func initDb() {
 	if err != nil {
 		panic(err)
 	}
-	err = db.Ping()
-	if err != nil {
-		panic(err)
+	for i := 0; i < 20; i++ {
+		err = db.Ping()
+		if i == 20 {
+			panic(err)
+		}
+		if err == nil {
+			break
+		} else if err != nil {
+			fmt.Println(err)
+			fmt.Println("DB Connection check. Retry count: ", i)
+			time.Sleep(time.Second * 5)
+		}
 	}
 	orderTableQuery := `CREATE TABLE IF NOT EXISTS users(user_id SERIAL PRIMARY KEY, user_name varchar NOT NULL, contact_no varchar UNIQUE NOT NULL)`
 	_, err = db.Exec(orderTableQuery)
@@ -142,17 +153,20 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 }
 
 func createOrder(w http.ResponseWriter, req *http.Request) {
-	orderserviceUrl, ok := os.LookupEnv(orderServiceUrl)
+	orderserviceHost, ok := os.LookupEnv(orderServiceHost)
+	if !ok {
+		panic("ORDERSERVICEHOST environment variable required but not set")
+	}
+	orderservicePort, ok := os.LookupEnv(orderServicePort)
+	if !ok {
+		panic("ORDERSERVICEPORT environment variable required but not set")
+	}
 	reqBody, _ := ioutil.ReadAll(req.Body)
 	var placeOrder map[string]string
 	json.Unmarshal(reqBody, &placeOrder)
-
-	if !ok {
-		panic("ORDERSERVICEURL environment variable required but not set")
-	}
 	jsonbody, _ := json.Marshal(placeOrder)
 	responseBody := bytes.NewBuffer(jsonbody)
-	resp, err := http.Post("http://"+orderserviceUrl+"/api/orders", "application/json", responseBody)
+	resp, err := http.Post("http://"+orderserviceHost+":"+orderservicePort+"/api/orders", "application/json", responseBody)
 	if err != nil {
 		log.Fatalf("An Error Occured %v", err)
 	}
@@ -207,13 +221,17 @@ func queryUsers(userlist *users, query string) error {
 }
 
 func getOrdersByUser(w http.ResponseWriter, req *http.Request) {
-	orderserviceUrl, ok := os.LookupEnv(orderServiceUrl)
+	orderserviceHost, ok := os.LookupEnv(orderServiceHost)
 	if !ok {
-		panic("ORDERSERVICEURL environment variable required but not set")
+		panic("ORDERSERVICEHOST environment variable required but not set")
+	}
+	orderservicePort, ok := os.LookupEnv(orderServicePort)
+	if !ok {
+		panic("ORDERSERVICEPORT environment variable required but not set")
 	}
 	vars := mux.Vars(req)
 	user_id := vars["user_id"]
-	resp, err := http.Get("http://" + orderserviceUrl + "/api/orders/" + user_id)
+	resp, err := http.Get("http://" + orderserviceHost + ":" + orderservicePort + "/api/orders/" + user_id)
 	if err != nil {
 		log.Fatalf("An Error Occured %v", err)
 	}

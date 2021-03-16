@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -35,9 +36,18 @@ func initDb() {
 	if err != nil {
 		panic(err)
 	}
-	err = db.Ping()
-	if err != nil {
-		panic(err)
+	for i := 0; i < 20; i++ {
+		err = db.Ping()
+		if i == 20 {
+			panic(err)
+		}
+		if err == nil {
+			break
+		} else if err != nil {
+			fmt.Println(err)
+			fmt.Println("DB Connection check. Retry count: ", i)
+			time.Sleep(time.Second * 5)
+		}
 	}
 	orderTableQuery := `CREATE TABLE IF NOT EXISTS orders(order_id SERIAL PRIMARY KEY, item_name varchar, user_id varchar)`
 	_, err = db.Exec(orderTableQuery)
