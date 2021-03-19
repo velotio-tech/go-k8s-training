@@ -1,0 +1,25 @@
+# Default values for ecom-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+users:
+  image:
+    repository: riteshgupta/ecom-app
+    tag: "user-0.1"
+    pullPolicy: IfNotPresent
+
+orders:
+  image:
+    repository: riteshgupta/ecom-app
+    tag: "order-0.1"
+    pullPolicy: IfNotPresent
+
+postgres:
+  image:
+    repository: postgres
+    tag: "9.6"
+
+global:
+  namespace: ecom-app

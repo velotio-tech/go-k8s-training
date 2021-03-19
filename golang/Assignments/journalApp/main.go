@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ritesh/journalApp/cmd"
+	"journalApp/cmd"
 )
 
 func main() {

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ .Values.global.namespace }}
+  name: orders-config
+data:
+  DBHOST: postgres-svc
+  DBPORT: "5432"
+  DBUSER: postgres
+  DBPASS: postgres
+  DBNAME: postgres   
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ .Values.global.namespace }}
+  name: users-config
+data:
+  DBHOST: postgres-svc
+  DBPORT: "5432"
+  DBUSER: postgres
+  DBPASS: postgres
+  DBNAME: postgres
+  ORDERSERVICEHOST: order-svc
+  ORDERSERVICEPORT: "8001"

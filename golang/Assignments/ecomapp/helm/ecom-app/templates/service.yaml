@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-svc
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecom-app.labels" . | nindent 4 }}
+    {{- include "ecom-app.orders.selectorLabels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+   - port: 8001
+  selector:
+   {{- include "ecom-app.orders.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-svc
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecom-app.labels" . | nindent 4 }}
+    {{- include "ecom-app.users.selectorLabels" . | nindent 4 }}
+spec:
+  type: NodePort
+  ports:
+   - port: 8000
+  selector:
+   {{- include "ecom-app.users.selectorLabels" . | nindent 4 }}    

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-dep
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecom-app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ecom-app.users.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "ecom-app.users.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: users
+        image: "{{ .Values.users.image.repository }}:{{ .Values.users.image.tag | default .Chart.AppVersion }}"
+        envFrom:
+          - configMapRef:
+              name: users-config
+        ports:
+          - containerPort: 8000
+            name: "tcp"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-dep
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecom-app.labels" . | nindent 4 }}  
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ecom-app.orders.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "ecom-app.orders.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: orders
+        image: "{{ .Values.orders.image.repository }}:{{ .Values.orders.image.tag | default .Chart.AppVersion }}"
+        envFrom:
+          - configMapRef:
+              name: orders-config
+        ports:
+          - containerPort: 8001
+            name: "tcp"

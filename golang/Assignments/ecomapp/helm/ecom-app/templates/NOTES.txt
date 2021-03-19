@@ -1,0 +1,2 @@
+1. Get the application URL by running these commands:
+  export NODE_PORT=$(kubectl get --namespace {{ .Values.global.namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services user-svc)
