@@ -19,7 +19,7 @@ orders:
 postgres:
   image:
     repository: postgres
-    tag: "9.6"
+    tag: "latest"
 
 global:
   namespace: ecom-app

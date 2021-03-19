@@ -41,3 +41,11 @@ note down the user_id which will be in response
 ## get orders
 `curl localhost:8000/api/users/<<user_id>>/orders`
  
+
+### Start ecom app using docker-compose
+`docker-compose -f docker-compose.yaml up -d`
+
+user service will start on 8000 port
+
+### Deploy app on kubernetes using helm
+`cd helm/ecom-app && helm install ecom-app ./`
