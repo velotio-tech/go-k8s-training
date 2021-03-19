@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db-svc:
+    image: "postgres" # use latest official postgres version
+    environment:
+      - POSTGRES_PASSWORD=postgres     
+    volumes:
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+  order-svc:
+    build:
+      context: ./src/orders/
+    environment:
+      - DBHOST=db-svc
+      - DBPORT=5432
+      - DBUSER=postgres
+      - DBPASS=postgres
+      - DBNAME=postgres
+    expose:
+      - "8001"  
+  user-svc:
+    build:
+      context: ./src/users/
+    environment:
+      - DBHOST=db-svc
+      - DBPORT=5432
+      - DBUSER=postgres
+      - DBPASS=postgres
+      - DBNAME=postgres
+      - ORDERSERVICEHOST=order-svc
+      - ORDERSERVICEPORT=8001
+    ports:
+      - "8000:8000"      
+
+volumes:
+  database-data: 

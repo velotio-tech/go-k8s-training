@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-dep
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecom-app.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "ecom-app.db.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "ecom-app.db.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: postgres-pv-storage
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+      containers:
+      - name: postgres
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        envFrom:
+          - configMapRef:
+              name: postgres-config
+        ports:
+          - containerPort: 5432
+            name: "tcp"
+        volumeMounts:
+          - mountPath: "/var/lib/postgresql/data/"
+            name: postgres-pv-storage
