@@ -60,7 +60,11 @@ func main() {
 			os.Truncate(file, 0)
 			os.Exit(0)
 		case "cd":
-			os.Chdir(split[1])
+			if len(split) < 2 {
+				fmt.Println("Directory not present")
+			} else {
+				os.Chdir(split[1])
+			}
 		case "history":
 			// reaad file here
 			data, err := ioutil.ReadFile(file)
