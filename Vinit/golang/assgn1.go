@@ -14,8 +14,21 @@ var file string = "history.txt"
 func check(e error) {
 	if e != nil {
 		os.Truncate(file, 0)
-		panic(e)
+		fmt.Println(e)
 	}
+}
+
+func splitCmd(cmd string) []string {
+	var split []string
+	if strings.Contains(cmd, "\"") {
+		ind := strings.Index(cmd, "\"")
+		split = strings.Fields(cmd[:ind])
+		split = append(split, cmd[ind:])
+		split[len(split)-1] = strings.Trim(split[len(split)-1], "\"")
+	} else {
+		split = strings.Split(cmd, " ")
+	}
+	return split
 }
 
 func executeCmd(cmd string) string {
@@ -37,15 +50,20 @@ func main() {
 
 	var header string
 	var cmd string
+	var split []string
 
 	for {
 		header = ""
-		header += executeCmd("whoami") + "/" + executeCmd("hostname") + executeCmd("pwd") + "~"
+		header += executeCmd("whoami") + "*" + executeCmd("hostname") + "*" + executeCmd("pwd") + "~"
 		fmt.Print(header + " ")
 
 		reader := bufio.NewReader(os.Stdin)
 		read, _ := reader.ReadString('\n')
 		cmd = strings.Replace(read, "\n", "", -1)
+
+		if cmd == "" {
+			continue
+		}
 
 		if string(cmd[0]) != " " {
 			addToHistory(cmd)
@@ -53,20 +71,29 @@ func main() {
 			cmd = strings.TrimSpace(cmd)
 		}
 
-		split := strings.Split(cmd, " ")
+		split = splitCmd(cmd)
 
 		switch split[0] {
 		case "exit":
 			os.Truncate(file, 0)
 			os.Exit(0)
 		case "cd":
+			var loc string
+			var err error
 			if len(split) < 2 {
-				fmt.Println("Directory not present")
+				loc, err = os.UserHomeDir()
+				check(err)
 			} else {
-				os.Chdir(split[1])
+				loc = strings.Join(split[1:], "")
+				if strings.ContainsAny(loc, "\\") {
+					ind := strings.Index(loc, "\\")
+					fmt.Println("MM", ind)
+					loc = strings.Replace(loc, "\\", " ", -1)
+				}
 			}
+			os.Chdir(loc)
 		case "history":
-			// reaad file here
+			// read file here
 			data, err := ioutil.ReadFile(file)
 			check(err)
 			fmt.Println(string(data))
@@ -74,6 +101,7 @@ func main() {
 			out, err := exec.Command(split[0], split[1:]...).Output()
 			if err != nil {
 				fmt.Println("This command is not supported")
+				fmt.Println(err)
 			} else {
 				fmt.Println(string(out) + "\n")
 			}
