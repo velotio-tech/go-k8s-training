@@ -19,7 +19,7 @@ var (
 //	starts the shell
 func LaunchShell() {
 	fmt.Println("starting shell...")
-	os.Chdir("/home/Prasad")
+	os.Chdir("/home/")
 	for {
 		printCommandPrefix()
 		scanner.Scan()
@@ -51,7 +51,7 @@ func execCommand(cmdStr string) {
 		break
 
 	default:
-		fmt.Println("Need to handle invalid commands.")
+		fmt.Println(tokens[0], ": command not found")
 		break
 	}
 }
