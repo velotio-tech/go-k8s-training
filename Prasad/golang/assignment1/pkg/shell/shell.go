@@ -14,12 +14,14 @@ var (
 	scanner     = bufio.NewScanner(os.Stdin)
 	colorGreen  = "\033[32m"
 	colorWhite  = "\033[37m"
+	historyCmd  History
 )
 
 //	starts the shell
 func LaunchShell() {
 	fmt.Println("starting shell...")
-	os.Chdir("/home/")
+	os.Chdir("/home/" + currUser.Username)
+	historyCmd.Init()
 	for {
 		printCommandPrefix()
 		scanner.Scan()
@@ -46,14 +48,21 @@ func execCommand(cmdStr string) {
 		break
 
 	case "exit":
+		historyCmd.addCommand(cmdStr)
+		historyCmd.Close()
 		fmt.Println("exiting shell...")
 		os.Exit(0)
+		break
+
+	case "history":
+		handleHistoryCommand()
 		break
 
 	default:
 		fmt.Println(tokens[0], ": command not found")
 		break
 	}
+	historyCmd.addCommand(cmdStr)
 }
 
 //	handles the 'ls' command of shell.
@@ -82,6 +91,11 @@ func handleChangeDirCommand(tokens []string) {
 func handlePWDCommand() {
 	wd, _ := os.Getwd()
 	fmt.Println(wd)
+}
+
+//	handle 'histroy' command
+func handleHistoryCommand() {
+	historyCmd.ShowHistory()
 }
 
 //	Prints the command prefix on consle.
