@@ -131,33 +131,8 @@ func CreateNewUser(uname string, passw string) bool {
 		passwd:   passw,
 	}
 	users = append(users, newUser)
-	// var sb strings.Builder
-	// for i := 0; i < len(users); i++ {
-	// 	sb.WriteString(users[i].username + constants.JournValDelim + users[i].passwd)
-	// 	if i != len(users)-1 {
-	// 		sb.WriteString(constants.JournEntryDelim)
-	// 	}
-	// }
-	// plainText := sb.String()
-	// cipherText := encdec.Encrypt(plainText)
 
 	writeUsersDataToFile()
-
-	// userfp := constants.UserRegistryPath + constants.UserRegistryFile
-	// file, err := os.OpenFile(userfp, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-	// if err != nil {
-	// 	log.Fatalln("Error:", err)
-	// 	return false
-	// }
-	// defer file.Close()
-
-	// fwriter := bufio.NewWriter(file)
-	// if _, err := fwriter.Write(cipherText[:]); err != nil {
-	// 	fmt.Println("Error creating user ::", err)
-	// 	return false
-	// }
-
-	// fwriter.Flush()
 
 	return true
 }
