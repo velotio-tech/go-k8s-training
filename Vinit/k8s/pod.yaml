@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: velotio
+  name: nginxpod
+  namespace: velotio-vinit
+spec:
+  containers:
+  - image: nginx
+    name: nginxpod
+    ports:
+    - containerPort: 80
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
