@@ -1,0 +1,40 @@
+version: "3"
+
+networks:
+  ms-bridge:
+    external: true
+
+volumes:
+  database_postgres:
+
+services:
+  postgres_cont:
+    container_name: "postgres_cont"
+    restart: always
+    image: postgres:latest
+    networks: 
+      - ms-bridge
+    volumes: 
+      - database_postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "password"
+  
+  user-app:
+    container_name: "user-app"
+    build: ./users
+    restart: on-failure
+    ports: 
+      - "7000:8090"
+    networks: 
+      - ms-bridge
+    depends_on:
+      - postgres_cont
+
+  order-app:
+    container_name: "order-app"
+    build: ./orders
+    restart: on-failure
+    networks: 
+      - ms-bridge
+    depends_on: 
+      - postgres_cont
