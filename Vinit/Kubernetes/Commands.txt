@@ -1,0 +1,17 @@
+kubectl set image deployment/nginx-deployment nginx=nginx:1.7.9 --record
+
+kubectl rollout status deployment/nginx-deployment
+
+kubectl create deployment busybox-cm --image=busybox --dry-run=client -o yaml > deploy.yaml
+
+kubectl apply -f deploy.yaml
+
+kubectl create secret generic velotio-secret --from-literal=username=velotiotech --from-literal=password=test123
+
+kubectl create configmap cmvolume --from-literal=key1=value1 --from-literal=key2=value2
+
+-- Checked if volume works --
+kubectl exec busybox-cm2-d9f895fcb-q2z82 -- ls /etc/velotio
+
+kubectl create secret generic vinitsecret --from-literal=username=velotiotech --from-literal=password=Test@123
+
