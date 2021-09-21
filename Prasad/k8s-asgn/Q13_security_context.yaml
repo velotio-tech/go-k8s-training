@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-security-context
+  labels:
+    app: busybox-security-context
+spec:
+  selector:
+    matchLabels:
+      app: busybox-security-context
+  template:
+    metadata:
+      labels:
+        app: busybox-security-context
+    spec:
+      securityContext:
+        runAsUser: 2000
+        runAsGroup: 3000
+        fsGroup: 2000
+      containers:
+      - name: busybox
+        image: busybox
+        ports:
+        - containerPort: 80
+        command: ["/bin/sh", "-c", "echo Hello World;"]

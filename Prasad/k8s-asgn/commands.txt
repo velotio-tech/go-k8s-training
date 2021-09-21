@@ -1,0 +1,15 @@
+1. kubectl create namespace velotio-prasad
+   kubectl config set-context --current --namespace=velotio-prasad
+
+2. file -> "Q2_pod.yaml"
+
+3. kubectl label pods nginx-pod app=velotio
+
+5. kubectl set image deployment/nginx-deployment nginx=nginx:1.7.9
+   kubectl rollout restart deployment/nginx-deployment
+
+6. kubectl create configmap velotio-cm --from-literal=env1=value1
+
+8. kubectl create configmap cmvolume --from-literal=key1=value1 --from-literal=key2=value2
+
+9. kubectl create secret generic velotio-secret --from-literal=username=velotiotech --from-literal=password=Test@123
