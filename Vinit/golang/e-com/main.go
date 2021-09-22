@@ -18,6 +18,15 @@ func healthCheck(w http.ResponseWriter, r *http.Request){
 	})
 }
 
+func notFoundHandler(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(struct {
+		StatusCode int
+		Data string }{
+		404,
+		"Not Found",
+	})
+}
+
 func handleRequests() {
 	myRouter := mux.NewRouter().StrictSlash(true)
 	myRouter.HandleFunc("/", healthCheck)
@@ -27,6 +36,7 @@ func handleRequests() {
 	myRouter.HandleFunc("/users/{uid}/{category}", user.HandleAllOrders).Methods("GET")
 	myRouter.HandleFunc("/users/{uid}/{category}/{cid}", user.HandleSingleOrder).Methods("GET")
 	myRouter.HandleFunc("/users/{uid}/order", user.AddOrder).Methods("POST")
+	myRouter.HandleFunc("/{random}", notFoundHandler)
 	log.Println("Starting the Server for the e-com app")
 	log.Fatal(http.ListenAndServe(":8009", myRouter))
 }
