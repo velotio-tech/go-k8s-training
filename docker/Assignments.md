@@ -7,7 +7,7 @@
 - Run nginx on the docker and expose it to the port 8080 on localhost. Check in your browser at "http://localhost:8080".
   It should show a page of Welcome to Nginx. Add the screenshot to your branch
 
-- Now download this index.html file from [here](https://github.com/velotio-tech/go-k8s-training/blob/docker/.extrafiles/index.html). Now run the same nginx server from previous assignment but the index.html 
+- Now download this index.html file from [here](.extrafiles/index.html). Now run the same nginx server from previous assignment but the index.html
   should be replaced with the file provided by us. Now check the browser again and it should show a page of Welcome to Velotio
   Add the screenshot to your branch
   
