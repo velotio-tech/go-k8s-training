@@ -13,7 +13,7 @@ ENV E_COMM_DB_USER postgres
 ENV E_COMM_DB_PORT 5432
 ENV E_COMM_DB_NAME postgres
 ENV USER_SERVER_PORT 8090
-ENV ORDER_SERVER_BASE_URL http://order-app:8091/
+ENV ORDER_SERVER_BASE_URL http://order-svc:8091/
 
 RUN go mod verify
 RUN go mod download

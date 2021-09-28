@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deployment
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "order.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "order.labels" . | nindent 8}}
+    spec:
+      containers:
+      - name: order-app
+        image: "psdudeman39/{{ .Values.order.imageName }}"
+        imagePullPolicy: Never
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.order.configMapName }}
+        ports:
+        - containerPort: 8091

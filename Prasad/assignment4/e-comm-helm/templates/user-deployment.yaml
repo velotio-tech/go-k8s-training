@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-deployment
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "user.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "user.labels" . | nindent 8}}
+    spec:
+      containers:
+      - name: user-app
+        image: "psdudeman39/{{ .Values.user.imageName }}"
+        imagePullPolicy: Never
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.user.configMapName }}
+        ports:
+        - containerPort: 8090

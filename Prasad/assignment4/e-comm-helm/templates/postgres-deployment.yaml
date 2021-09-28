@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # name: postgres-deployment
+  name: {{ .Values.postgres.deployment.name }}
+  labels:
+    {{- include "postgres.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "postgres.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "postgres.labels" . | nindent 8}}
+    spec:
+      containers:
+      - name: postgres-cont
+        image: postgres
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "password"
+        ports:
+        - containerPort: {{ .Values.postgres.port }}
+          name: {{ .Values.postgres.deployment.name }}
+        volumeMounts:
+        - name: {{ .Values.postgres.pv.name }}
+          mountPath: /var/lib/postgresql/data/
+      volumes:
+      - name: {{ .Values.postgres.pv.name }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.postgres.pvc.name }}

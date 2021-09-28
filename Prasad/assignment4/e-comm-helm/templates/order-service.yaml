@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.order.svcName }}
+  labels:
+    {{- include "order.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8091
+      targetPort: 8091
+      protocol: TCP
+  selector:
+    {{- include "order.labels" . | nindent 4 }}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.postgres.svcName}}
+spec:
+  type: ClusterIP
+  selector:
+    {{- include "postgres.labels" . | nindent 4 }}
+  ports:
+  - port: {{ .Values.postgres.port }}
+    targetPort: {{ .Values.postgres.targetPort }}
