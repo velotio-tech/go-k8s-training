@@ -1,0 +1,74 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: {{ include "goapp.fullname" . }}
+#   labels:
+#     {{- include "goapp.labels" . | nindent 4 }}
+# spec:
+#   type: {{ .Values.service.type }}
+#   ports:
+#     - port: {{ .Values.service.port }}
+#       targetPort: http
+#       protocol: TCP
+#       name: http
+#   selector:
+#     {{- include "goapp.selectorLabels" . | nindent 4 }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.service.ecom.labels }}
+  name: {{ .Values.service.ecom.labels }}
+spec:
+  ports:
+  - name: accessport
+    port: {{ .Values.service.ecom.port }}
+    protocol: {{ .Values.service.protocol }}
+    targetPort: {{ .Values.service.ecom.targetPort }}
+  selector:
+    app: ecom-backend
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: {{ .Values.service.mongo.labels }}
+  name: {{ .Values.service.mongo.labels }}
+spec:
+  ports:
+  - name: dbport
+    port: {{ .Values.service.mongo.port }}
+    protocol: {{ .Values.service.protocol }}
+    targetPort: {{ .Values.service.mongo.targetPort }}
+  selector:
+    app: mongo-deployment
+  type: {{ .Values.service.type }}
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Values.service.order.labels }}
+  name: {{ .Values.service.order.labels }}
+spec:
+  ports:
+  - name: port
+    port: {{ .Values.service.order.port }}
+    protocol: {{ .Values.service.protocol }}
+  selector:
+    app: order-deployment
+  type: {{ .Values.service.type }}
+status:
+  loadBalancer: {}

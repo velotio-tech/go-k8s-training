@@ -1,0 +1,153 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: {{ include "goapp.fullname" . }}
+#   labels:
+#     {{- include "goapp.labels" . | nindent 4 }}
+# spec:
+#   {{- if not .Values.autoscaling.enabled }}
+#   replicas: {{ .Values.replicaCount }}
+#   {{- end }}
+#   selector:
+#     matchLabels:
+#       {{- include "goapp.selectorLabels" . | nindent 6 }}
+#   template:
+#     metadata:
+#       {{- with .Values.podAnnotations }}
+#       annotations:
+#         {{- toYaml . | nindent 8 }}
+#       {{- end }}
+#       labels:
+#         {{- include "goapp.selectorLabels" . | nindent 8 }}
+#     spec:
+#       {{- with .Values.imagePullSecrets }}
+#       imagePullSecrets:
+#         {{- toYaml . | nindent 8 }}
+#       {{- end }}
+#       serviceAccountName: {{ include "goapp.serviceAccountName" . }}
+#       securityContext:
+#         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+#       containers:
+#         - name: {{ .Chart.Name }}
+#           securityContext:
+#             {{- toYaml .Values.securityContext | nindent 12 }}
+#           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+#           imagePullPolicy: {{ .Values.image.pullPolicy }}
+#           ports:
+#             - name: http
+#               containerPort: 80
+#               protocol: TCP
+#           livenessProbe:
+#             httpGet:
+#               path: /
+#               port: http
+#           readinessProbe:
+#             httpGet:
+#               path: /
+#               port: http
+#           resources:
+#             {{- toYaml .Values.resources | nindent 12 }}
+#       {{- with .Values.nodeSelector }}
+#       nodeSelector:
+#         {{- toYaml . | nindent 8 }}
+#       {{- end }}
+#       {{- with .Values.affinity }}
+#       affinity:
+#         {{- toYaml . | nindent 8 }}
+#       {{- end }}
+#       {{- with .Values.tolerations }}
+#       tolerations:
+#         {{- toYaml . | nindent 8 }}
+#       {{- end }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.orderImage.labels }}
+  name: {{ .Values.orderImage.labels }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.orderImage.labels }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.orderImage.labels }}
+    spec:
+      containers:
+      - image: {{ .Values.orderImage.repository }}
+        name: orderservice
+        ports:
+        - containerPort: {{ .Values.orderImage.port }}
+        resources: {}
+status: {}
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.mongoImage.labels }}
+  name: {{ .Values.mongoImage.labels }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.mongoImage.labels }}
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ .Values.mongoImage.labels }}
+    spec:
+        containers:
+        - image: {{ .Values.mongoImage.repository }}
+          name: {{ .Values.mongoImage.repository }}
+          ports:
+          - containerPort: {{ .Values.mongoImage.port }}
+          volumeMounts:
+            - name: storage
+              mountPath: /data/db
+        volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.mongoImage.volumes.claimName }}
+status: {}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.ecomImage.labels }}
+  name: {{ .Values.ecomImage.labels }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.ecomImage.labels }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.ecomImage.labels }}
+    spec:
+      containers:
+      - image: {{ .Values.ecomImage.repository }}
+        name: e-com
+        ports:
+        - containerPort: {{ .Values.ecomImage.port }}
+        resources: {}
+status: {}
