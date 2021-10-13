@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      # mysql linux/amd64 image id. docker pull amd64/mysql
+      # docker inspect --format='{{index .RepoDigests 0}}' amd64/mysql
+      # - image: amd64/mysql@sha256:a0a2699fe9133b68079099740338691e72e0f880325e28f1b1bdb7589d6a5be1
+      - image: amd64/mysql
+        name: mysql
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        ports:
+        - containerPort: 3306
+          name: mysql

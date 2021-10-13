@@ -1,0 +1,5 @@
+docker build -t kaustubhd/orderswebapp .  
+
+docker image push kaustubhd/orderswebapp 
+
+docker run -d --name orderswebapp -p "8081:8081" kaustubhd/orderswebapp 

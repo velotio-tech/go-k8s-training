@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userswebapp
+  labels:
+        app: userswebapp
+spec:
+  selector:
+    matchLabels:
+      app: userswebapp
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: userswebapp
+    spec:
+      containers:
+      - image: kaustubhd/userswebapp
+        name: userswebapp
+        env:
+        - name: ORDERS_SVC_HOST_NAME
+          value: "orderswebappsvc"
+        - name: ORDERS_SVC_PORT
+          value: "8081"
+        ports:
+        - containerPort: 8080
+          name: userswebapp

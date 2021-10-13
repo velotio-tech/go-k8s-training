@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderswebapp
+  labels:
+        app: orderswebapp
+spec:
+  selector:
+    matchLabels:
+      app: orderswebapp
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: orderswebapp
+    spec:
+      containers:
+      - image: kaustubhd/orderswebapp
+        name: orderswebapp
+        ports:
+        - containerPort: 8081
+          name: orderswebapp

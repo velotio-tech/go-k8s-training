@@ -1,0 +1,25 @@
+docker build -t kaustubhd/userswebapp .  
+
+docker image push kaustubhd/userswebapp    
+
+docker run -d --name userswebapp -p "8080:8080"  kaustubhd/userswebapp 
+
+
+curl -X POST -H "Content-Type: application/json" \
+    -d '{"name": "kaustubh", "location": "Pune"}' \
+    http://localhost:8080/users
+
+
+curl -X GET http://localhost:8080/users/kaustubh
+curl -X DELETE http://localhost:8080/users/kaustubh
+
+
+
+curl -X POST -H "Content-Type: application/json" -d '{"product_name": "Bike"}' http://localhost:8081/users/user1/orders
+curl -X POST -H "Content-Type: application/json" -d '{"product_name": "Car"}' http://localhost:8081/users/user1/orders
+
+
+curl -X GET http://localhost:8081/users/user1/orders
+curl -X GET http://localhost:8081/users/user1/orders/...
+
+curl -X DELETE http://localhost:8081/users/user1/orders/...
