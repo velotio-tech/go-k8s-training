@@ -1,0 +1,22 @@
+
+# Install
+helm install mywebapp  .
+
+# check status
+helm status mywebapp
+helm list
+
+kubectl get pods,svc,deployments,ingress
+
+# upgrade
+helm upgrade mywebapp . --set usersWebApp.servicePort=8080
+
+# check status
+helm status mywebapp
+helm history mywebapp
+helm status mywebapp
+
+# Rollback
+helm rollback mywebapp
+helm history mywebapp
+helm status mywebapp

@@ -1,0 +1,13 @@
+# Default values for webapp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+usersWebApp:
+  image: kaustubhd/userswebapp
+  servicePort: 80
+
+ordersWebApp:
+  image: kaustubhd/orderswebapp
+  servicePort: 80
+
