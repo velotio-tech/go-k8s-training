@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-sc
+  namespace: velotio-shruti
+  labels:
+    app: busybox-sc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-sc
+  template:
+    metadata:
+      labels:
+        app: busybox-sc
+    spec:
+      containers:
+      - name: busybox-sc
+        image: busybox:latest
+        command: [ "/bin/sh", "-c", "env ;while true; do continue; done;"  ]
+        securityContext:
+          runAsUser: 1000
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true

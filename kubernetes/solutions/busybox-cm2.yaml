@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-cm2
+  namespace: velotio-shruti
+  labels:
+    app: busybox-cm2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-cm2
+  template:
+    metadata:
+      labels:
+        app: busybox-cm2
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:latest
+        command: [ "/bin/sh","-c","mkdir -p /etc/velotio; while true; do continue; done;" ]
+        volumeMounts:
+        - name: cm-volume
+          mountPath: "/etc/velotio"
+          readOnly: true
+      volumes:
+      - name: cm-volume
+        configMap:
+          name: cmvolume

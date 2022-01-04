@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-cm
+  namespace: velotio-shruti
+  labels:
+    app: busybox-cm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-cm
+  template:
+    metadata:
+      labels:
+        app: busybox-cm
+    spec:
+      containers:
+      - name: busybox-container
+        image: busybox:latest
+        command: [ "/bin/sh", "-c", "env ;while true; do continue; done;"  ]
+        env:
+        # Define the environment variable
+          - name: SPECIAL_LEVEL_KEY
+            valueFrom:
+              configMapKeyRef:
+                # The ConfigMap containing the value you want to assign to SPECIAL_LEVEL_KEY
+                name: velotio-cm
+                # Specify the key associated with the value
+                key: env1

@@ -1,0 +1,11 @@
+kubectl set image deployment/nginx-deployment nginx=nginx:1.7.9 --namespace=velotio-shruti
+
+kubectl rollout status deployment/nginx-deployment --namespace=velotio-shruti
+
+kubectl create configmap velotio-cm --from-literal=env1=value1 --namespace=velotio-shruti
+
+kubectl create configmap cmvolume --from-literal=key1=value1 --from-literal=key2=value2 --namespace=velotio-shruti
+
+kubectl create secret generic velotio-secret --from-literal=username=velotiotech --from-literal=password=Test@123 --namespace=velotio-shruti
+
+kubectl exec $podname --namespace=velotio-shruti -- ls /etc/velotio

@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: velotio-job
+  namespace: velotio-shruti
+spec:
+  template:
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args: 
+          - "for i in 1 2 3 4 5; do echo hello ; sleep 30 ; echo world ; done"
+      restartPolicy: Never
