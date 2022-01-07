@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"journal/constants"
+	"journal/encrypt"
 	"os"
 	"strings"
+	"time"
 )
 
 type User struct {
@@ -105,7 +107,7 @@ func Auth(u, p string) bool {
 	uMap := getUsers()
 	isExists := Exists(u)
 	if isExists {
-		value, _ := uMap[u]
+		value := uMap[u]
 		if p == value {
 			return true
 		} else {
@@ -131,13 +133,18 @@ func (u *User) JournalWrite(entry string) {
 		s += wj + "\n"
 	}
 	f, _ := os.OpenFile(file, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	_, err := f.Write([]byte(entry + "\n"))
+	cipherText, _ := encrypt.Encrypt([]byte(entry))
+	n := "\n"
+	time := time.Now()
+	currentTime := time.Format("02 Jan 06 15:04 MST -")
+	cipherText = append([]byte(currentTime), cipherText...)
+	cipherText = append(cipherText, n...)
+	_, err := f.Write(cipherText)
 	if err != nil {
 		fmt.Println("Failed to add entry to journal")
 		return
 	}
-	f.Close()
-
+	defer f.Close()
 }
 
 func journalRead(file string) []string {
@@ -150,15 +157,17 @@ func journalRead(file string) []string {
 		if len(data) < 1 {
 			return text
 		}
-		//fmt.Println("######", string(data))
 		lines := strings.Split(string(data), "\n")
 		for _, l := range lines {
 			if l == "" {
 				break
 			}
-			text = append(text, l)
+			cipherText := strings.Split(l, "-")
+			plainText, _ := encrypt.Decrypt([]byte(cipherText[1]))
+			text = append(text, string(cipherText[0]))
+			text = append(text, string(plainText))
 		}
-		fmt.Println(text)
+		fmt.Print(text)
 		return text
 	}
 }

@@ -68,7 +68,6 @@ func addEntry(u, p, e string) {
 	if users.Auth(u, p) {
 		fmt.Println("user authenticated")
 		entryUser := users.GetValue(u, p)
-		fmt.Println("got value")
 		if entryUser != nil {
 			entryUser.JournalWrite(e)
 		} else {
