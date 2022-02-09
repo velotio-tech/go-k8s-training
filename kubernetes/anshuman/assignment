@@ -1,0 +1,15 @@
+kubectl create namespace velotio-anshuman
+kubectl config set-context --current --namespace=velotio-anshuman
+kubectl apply -f q1.yaml --namespace=velotio-anshuman
+kubectl apply -f q2.yaml --namespace=velotio-anshuman
+kubectl edit deployment nginx-deployment
+kubectl rollout status deployment/nginx-deployment
+kubectl apply -f q3.yaml
+kubectl apply -f q4.yaml
+kubectl apply -f q5.yaml
+kubectl apply -f q6.yaml
+kubectl apply -f q7.yaml
+kubectl apply -f q8.yaml
+kubectl apply -f q9.yaml
+kubectl apply -f q10.yaml
+kubectl apply -f q11.yaml

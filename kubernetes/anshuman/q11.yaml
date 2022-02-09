@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: busybox-sc
+  name: busybox-sc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-sc
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: busybox-sc
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+      containers:
+      - image: busybox
+        name: busybox
+        resources: {}
+        command: ["sleep", "120"]
+        securityContext:
+          allowPrivilegeEscalation: false
+status: {}

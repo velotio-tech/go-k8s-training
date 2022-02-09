@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: busybox-cm
+  name: busybox-cm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-cm
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: busybox-cm
+    spec:
+      containers:
+      - image: busybox
+        name: busybox
+        resources: {}
+        command: ["sleep"]
+        args: ["60"]
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/velotio
+      volumes:
+        - name: config-volume
+          configMap:
+            name: cmvolume
+status: {}

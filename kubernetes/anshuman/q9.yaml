@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: velotio-job
+spec:
+  completions: 5
+  parallelism: 1
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: busybox
+        name: velotio-job
+        resources: {}
+        command: ["/bin/sh"]
+        args: ["-c", "echo hello;sleep 30;echo world;"]
+      restartPolicy: Never
+status: {}

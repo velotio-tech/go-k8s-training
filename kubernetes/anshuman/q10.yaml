@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: velotio-cronjob
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: velotio-cronjob
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: busybox
+            name: velotio-cronjob
+            resources: {}
+            command: ["/bin/sh"]
+            args: ["-c", "date;echo Hello World"]
+          restartPolicy: OnFailure
+  schedule: '*/2 * * * *'
+status: {}

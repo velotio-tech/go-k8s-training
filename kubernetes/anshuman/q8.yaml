@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: busybox-secret
+  name: busybox-secret
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-secret
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: busybox-secret
+    spec:
+      containers:
+      - image: busybox
+        name: busybox
+        command: ["sleep"]
+        args: ["60"]
+        resources: {}
+        env:
+          - name: USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: velotio-secret
+                key: username
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: velotio-secret
+                key: password
+status: {}
