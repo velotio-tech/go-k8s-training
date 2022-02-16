@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: busybox-sc
+  name: busybox-sc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-sc
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: busybox-sc
+    spec:
+      containers:
+      - image: busybox
+        name: busybox
+        command: [ "/bin/sh","-c","mkdir /etc/velotio; while true; do continue; done;" ]
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+status: {}
