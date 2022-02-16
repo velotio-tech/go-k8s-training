@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: velotio-job
+spec:
+  template:
+    spec:
+      containers:
+      - image: busybox
+        name: velotio-job
+        command: ["/bin/sh", "-c"]
+        args:
+          - for i in 1 2 3 4 5; do echo Hello ; sleep 30 ; echo World ; done
+      restartPolicy: OnFailure
+status: {}
