@@ -4,7 +4,7 @@ metadata:
   labels:
     app: velotio
   name: nginxpod
-  namespace: velotio-vinit
+  namespace: velotio-nitin
 spec:
   containers:
   - image: nginx
