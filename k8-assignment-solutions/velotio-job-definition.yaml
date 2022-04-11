@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+        name: velotio-job
+spec:
+        completions: 5
+        template:
+                spec:
+                        containers:
+                                - name: busybox
+                                  image: busybox
+                                  command: ["/bin/sh","-c"]
+                                  args: ["echo hello;sleep 30;echo hello;"]
+                        restartPolicy: Never
+            

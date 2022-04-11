@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: busybox-security-context
+        labels:
+                app: busybox-security-context
+spec:
+        replicas: 1
+        selector: 
+                matchLabels:
+                        app: busybox-security-context
+        template:
+                metadata:
+                        labels:
+                                app: busybox-security-context
+                spec:
+                        containers:
+                                - name: busybox
+                                  image: busybox
+                                  securityContext:
+                                        runAsUser: 1000
+                                        capabilities:
+                                                add: ["MAC_ADMIN"]       

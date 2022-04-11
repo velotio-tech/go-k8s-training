@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+        name: velotio-cronjob
+spec:
+        schedule: "*/2 * * * *"
+        jobTemplate: 
+                spec:
+                       template:
+                                spec:
+                                        containers:
+                                                - name: busybox
+                                                  image: busybox
+                                                  command: ["/bin/sh", "-c"]
+                                                  args: ["date; echo Hello world"]
+                                        restartPolicy: Never                  
+

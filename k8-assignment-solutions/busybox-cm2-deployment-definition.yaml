@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: busybox-cm2
+        labels:
+                app: busybox-cm2
+spec:
+        template:
+                metadata:
+                        name: busybox-cm2
+                        labels:
+                                app: busybox-cm2
+                spec:
+                        containers:
+                                - name: busybox
+                                  image: busybox
+                                  volumeMounts:
+                                          - name: config-volume
+                                            mountPath: /etc/velotio
+                        volumes:
+                                - name: config-volume
+                                  configMap:
+                                          name: cmvolume
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: busybox-cm2
+
+
+
+
