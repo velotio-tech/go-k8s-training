@@ -1,0 +1,11 @@
+https://gowebexamples.com/routes-using-gorilla-mux/
+https://blog.logrocket.com/making-http-requests-in-go/
+
+//
+https://stackoverflow.com/questions/7296846/how-to-implement-one-to-one-one-to-many-and-many-to-many-relationships-while-de 
+
+https://phoenixnap.com/kb/mysql-docker-container
+
+https://stackoverflow.com/questions/37501601/creating-an-array-slice-to-store-db-query-results-in-golang
+
+https://stackoverflow.com/questions/8270816/converting-go-struct-to-json

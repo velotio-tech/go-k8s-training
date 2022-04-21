@@ -1,0 +1,21 @@
+version: '3'
+services:
+  users-app:
+    build: ./users
+    image: users-app
+    ports:
+      - 8080:8080
+    links: 
+      - orders-app
+  orders-app:
+    build: ./orders
+    image: orders-app
+    ports:
+      - 8090:8090
+    links:
+      - mysql
+      - users-app
+  mysql:
+    image: mysql
+    ports:
+      -  3306:3306
