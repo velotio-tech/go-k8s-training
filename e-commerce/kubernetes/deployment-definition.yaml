@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-deployment
+  labels:
+    app: ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecommerce
+  template:
+    metadata:
+      labels:
+        app: ecommerce
+    spec:
+      containers:
+      - name: users-app
+        image: users-app
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+      - name: orders-app
+        image: orders-app
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8090
+      - name: mysql-server
+        image: mysql
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3306
+        

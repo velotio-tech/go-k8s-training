@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-ecommerce
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /users 
+            pathType: Prefix
+            backend:
+              service:
+                name: users-app
+                port:
+                  number: 8080
