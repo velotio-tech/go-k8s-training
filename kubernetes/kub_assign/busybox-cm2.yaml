@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-cm2
+  namespace: velotio-ak
+spec:
+  selector:
+    matchLabels:
+      run: busybox
+  template:
+    metadata:
+      labels:
+        run: busybox
+        app: velotio
+    spec:
+      containers:
+      - image: busybox
+        name: busybox
+        resources: {}
+        volumeMounts:
+          - mountPath: /etc/velotio
+            name: cm-mount-test
+      volumes:
+        - configMap:
+            name: velotio-cm
+          name: cm-mount-test

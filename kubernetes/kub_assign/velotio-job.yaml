@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: velotio-job
+  namespace: velotio-ak
+spec:
+  template:
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["echo hello", "sleep 30", "echo world"]
+      restartPolicy: Never
+  backoffLimit: 5

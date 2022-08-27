@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: velotio-ak
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: nginx
+  template:
+    metadata:
+      labels:
+        run: nginx
+        app: velotio
+    spec:
+      containers:
+      - image: nginx:1.7.8
+        name: nginx
+        resources: {}
+        ports:
+        - containerPort: 80
+
+status: {}

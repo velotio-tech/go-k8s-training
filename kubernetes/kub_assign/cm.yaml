@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: velotio-cm
+  namespace: velotio-ak
+data:
+# Configuration Values are stored as key-value pairs
+  env1: value1
