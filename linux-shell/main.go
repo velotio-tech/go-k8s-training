@@ -42,10 +42,10 @@ func main() {
 			break
 		}
 		
-		// execute the entered command
-		executeCMD(input, history, validCMD)
-
 		// add the command to history
 		addToHistory(input, history)
+		
+		// execute the entered command
+		executeCMD(input, history, validCMD)
 	}
 }

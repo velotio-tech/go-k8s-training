@@ -39,7 +39,8 @@ func executeCMD(input string, history map[int]string, validCMD map[string]string
 func executePWD() {
 	pwd, err := os.Getwd()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("error while executing PWD command : ",err)
+		return
 	}
 	fmt.Println(pwd)
 }
@@ -48,7 +49,8 @@ func executePWD() {
 func executeLS() {
 	dir, err := os.Getwd()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("error while executing LS command : ",err)
+		return
 	}
 	files, _ := os.ReadDir(dir)
 	for _, file := range files {
@@ -59,12 +61,13 @@ func executeLS() {
 // to handle 'cd' command
 func executeCD(path []string) {
 	if len(path) <=1 {
-		fmt.Println("Invalid arguments to command")
+		fmt.Println("error while executing CD command : Invalid arguments")
 		return
 	}
 	err := os.Chdir(path[1])
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("error while executing CD command : ",err)
+		return
 	}
 }
 
