@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -20,6 +21,8 @@ func main() {
 			listDirectoriesAndFiles()
 		} else if inputCommand == "pwd" {
 			fmt.Print(presentWorkingDirectory())
+		} else if inputCommand == "exit" {
+			os.Exit(0)
 		}
 	}
 }
