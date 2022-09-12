@@ -9,8 +9,9 @@ import (
 
 func getPrompt() string {
 	currentUser, _ := user.Current()
+	hostname, _ := os.Hostname()
 
-	return "[" + currentUser.Username + "]:" + getCurrentDirectory() + " $ "
+	return "[" + currentUser.Username + "@" + hostname + "]:" + getCurrentDirectory() + " $ "
 }
 
 func getCurrentDirectory() string {
