@@ -14,8 +14,7 @@ func getPrompt() string {
 }
 
 func getCurrentDirectory() string {
-	currentDirPath, _ := os.Getwd()
-	directories := strings.Split(currentDirPath, "/")
+	directories := strings.Split(presentWorkingDirectory(), "/")
 
 	return directories[len(directories)-1]
 }
@@ -26,4 +25,9 @@ func listDirectoriesAndFiles() {
 	for _, file := range files {
 		fmt.Print(file.Name(), "\t")
 	}
+}
+
+func presentWorkingDirectory() string {
+	currentDirectoryPath, _ := os.Getwd()
+	return currentDirectoryPath
 }

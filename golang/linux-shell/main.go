@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Println("-----------------------------------------------Welcome to Linux Shell-------------------------------------------\n")
+	fmt.Println("-----------------------------------------------Welcome to Linux Shell-------------------------------------------")
 
 	var inputCommand string
 
@@ -18,6 +18,8 @@ func main() {
 
 		if inputCommand == "ls" {
 			listDirectoriesAndFiles()
+		} else if inputCommand == "pwd" {
+			fmt.Print(presentWorkingDirectory())
 		}
 	}
 }
