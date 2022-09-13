@@ -20,11 +20,14 @@ func getCurrentDirectory() string {
 	return directories[len(directories)-1]
 }
 
-func listDirectoriesAndFiles() {
+func printFilesAndDirectories() {
 	files, _ := os.ReadDir(".")
 
-	for _, file := range files {
-		fmt.Print(file.Name(), "\t")
+	if len(files) != 0 {
+		for _, file := range files {
+			fmt.Print(file.Name(), "\t\t")
+		}
+		fmt.Println()
 	}
 }
 

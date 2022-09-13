@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"strings"
@@ -8,21 +9,25 @@ import (
 
 func main() {
 	fmt.Println("-----------------------------------------------Welcome to Linux Shell-------------------------------------------")
-
-	var inputCommand string
+	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		fmt.Print("\n", getPrompt())
-		fmt.Scanln(&inputCommand)
+		fmt.Print(getPrompt())
+		scanner.Scan()
 
-		inputCommand = strings.ToLower(inputCommand)
+		tokens := strings.Fields(scanner.Text())
+		command, arguments := tokens[0], tokens[1:]
 
-		if inputCommand == "ls" {
-			listDirectoriesAndFiles()
-		} else if inputCommand == "pwd" {
-			fmt.Print(presentWorkingDirectory())
-		} else if inputCommand == "exit" {
+		switch command {
+		case "ls":
+			printFilesAndDirectories()
+		case "pwd":
+			fmt.Println(presentWorkingDirectory())
+		case "exit":
+			fmt.Println("Shutting down the shell......")
 			os.Exit(0)
+		case "cd":
+			os.Chdir(arguments[0])
 		}
 	}
 }
