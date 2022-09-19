@@ -9,12 +9,12 @@ import (
 
 func main() {
 
-	fmt.Println("-------------------------------Welcome to Linux Shell-------------------------------------------\n")
+	fmt.Println("-----------------Welcome to Linux Shell-------------\n")
 
 	var inputCommand string
 
 	for {
-		fmt.Print(getPromt())
+		fmt.Println(getPromt())
 		fmt.Scanln(&inputCommand)
 
 		inputCommand = strings.ToLower(inputCommand)
@@ -31,6 +31,7 @@ func main() {
 }
 
 func presentWorkingDir() {
+
 	currentDirPath, _ := os.Getwd()
 
 	fmt.Print(currentDirPath)
@@ -47,11 +48,11 @@ func listDirectoriesAndFiles() {
 
 func getPromt() string {
 	currUser, _ := user.Current()
-
-	return "[" + currUser.Username + " ] " + getDirectory() + " $ "
+	hostname, _ := os.Hostname()
+	return "[" + currUser.Username + "@" + hostname + "]:" + getCurrentDirectory() + " $ "
 }
 
-func getDirectory() string {
+func getCurrentDirectory() string {
 	currentDirPath, _ := os.Getwd()
 
 	directories := strings.Split(currentDirPath, "/")
