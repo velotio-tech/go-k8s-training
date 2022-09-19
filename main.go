@@ -11,14 +11,38 @@ func main() {
 
 	fmt.Println("-------------------------------Welcome to Linux Shell-------------------------------------------\n")
 
-	//var inputCommands string
+	var inputCommand string
 
-	//for {
+	for {
+		fmt.Print(getPromt())
+		fmt.Scanln(&inputCommand)
 
-	fmt.Println(getPromt())
+		inputCommand = strings.ToLower(inputCommand)
 
-	//}
+		if inputCommand == "ls" {
+			listDirectoriesAndFiles()
+		} else if inputCommand == "exit" {
+			os.Exit(0)
+		} else if inputCommand == "pwd" {
+			presentWorkingDir()
+		}
+	}
 
+}
+
+func presentWorkingDir() {
+	currentDirPath, _ := os.Getwd()
+
+	fmt.Print(currentDirPath)
+
+}
+
+func listDirectoriesAndFiles() {
+	files, _ := os.ReadDir(".")
+
+	for _, file := range files {
+		fmt.Print(file.Name(), "\t")
+	}
 }
 
 func getPromt() string {
