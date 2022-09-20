@@ -3,6 +3,8 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
 	"os/user"
 	"strings"
@@ -14,57 +16,52 @@ func main() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 
-	history := restoreHistory()
-
 	for {
 
-		fmt.Println(getPromt())
+		fmt.Print(getPromt())
 		scanner.Scan()
-
 		inputCommand := scanner.Text()
 		tokens := strings.Fields(inputCommand)
-		command, arguments := tokens[0], tokens[1:]
+		command, argument := tokens[0], tokens[1:]
 
 		switch command {
+
+		case "exit":
+			fmt.Println("exit for shell")
+			os.Exit(0)
+		case "pwd":
+			fmt.Println(presentWorkingDir())
 		case "ls":
 			listDirectoriesAndFiles()
-		case "pwd":
-			presentWorkingDir()
-		case "exit":
-			fmt.Println("Shutting down the shell......")
-			history.update(inputCommand)
-			os.Exit(0)
 		case "cd":
-			os.Chdir(arguments[0])
-		case "history":
-			history.display()
+			changeDir(argument)
 		default:
 			fmt.Println("Command not found:", command)
+
 		}
-		history.update(inputCommand)
+
 	}
+
 }
 
-func presentWorkingDir() {
-
-	currentDirPath, _ := os.Getwd()
-
-	fmt.Print(currentDirPath)
-
+func changeDir(argument []string) {
+	os.Chdir(argument[0])
 }
 
 func listDirectoriesAndFiles() {
-	files, _ := os.ReadDir(".")
-
-	for _, file := range files {
-		fmt.Print(file.Name(), "\t")
+	files, err := ioutil.ReadDir("./")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println()
+	for index, f := range files {
+		fmt.Println(index+1, f.Name()+"\n")
 	}
 }
 
-func getPromt() string {
-	currUser, _ := user.Current()
-	hostname, _ := os.Hostname()
-	return "[" + currUser.Username + "@" + hostname + "]:" + getCurrentDirectory() + " $ "
+func presentWorkingDir() string {
+	currentDirPath, _ := os.Getwd()
+	return currentDirPath
 }
 
 func getCurrentDirectory() string {
@@ -73,4 +70,32 @@ func getCurrentDirectory() string {
 	directories := strings.Split(currentDirPath, "/")
 
 	return directories[len(directories)-1]
+}
+
+func getPromt() string {
+
+	currUser, _ := user.Current()
+	hostname, _ := os.Hostname()
+	str := currUser.Username + "@" + hostname + ":~"
+
+	path := presentWorkingDir()
+
+	arr := strings.Split(path, "/")
+	//fmt.Println(arr)
+	flag := false
+
+	for _, val := range arr {
+		if flag {
+			str = str + "/" + val
+		}
+
+		if val == currUser.Username {
+			flag = true
+		}
+
+	}
+
+	str = str + "$ "
+
+	return str
 }
