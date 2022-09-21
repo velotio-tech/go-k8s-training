@@ -12,8 +12,12 @@ const HISTORY_LIMIT = 10
 
 const HISTORY_FILENAME = "shell_history"
 
-func (h History) display() {
-	for index, command := range h {
+func (h *History) display() {
+
+	for index, command := range *h {
+		if index == 0 {
+			continue
+		}
 		fmt.Println(index, command)
 	}
 }
@@ -33,6 +37,7 @@ func (historyPointer *History) update(command string) {
 	} else {
 		*historyPointer = append(*historyPointer, command)
 	}
+
 }
 
 func restoreHistory() History {

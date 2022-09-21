@@ -12,9 +12,11 @@ import (
 
 func main() {
 
-	fmt.Println("-----------------Welcome to Linux Shell-------------")
+	fmt.Println("------------------Welcome to Linux Shell--------------------")
 
 	scanner := bufio.NewScanner(os.Stdin)
+
+	historyObj := restoreHistory()
 
 	for {
 
@@ -27,17 +29,28 @@ func main() {
 		switch command {
 
 		case "exit":
+			historyObj.update(command)
+			historyObj.saveHistoryToFile(command)
 			fmt.Println("exit for shell")
 			os.Exit(0)
 		case "pwd":
+			historyObj.update(command)
+
 			fmt.Println(presentWorkingDir())
 		case "ls":
+			historyObj.update(command)
+
 			listDirectoriesAndFiles()
 		case "cd":
+			historyObj.update(command + " " + argument[1])
 			changeDir(argument)
-		default:
-			fmt.Println("Command not found:", command)
+		case "history":
+			historyObj.update(command)
 
+			historyObj.display()
+		default:
+			historyObj.update(command)
+			fmt.Println("Command not found:", command)
 		}
 
 	}
@@ -64,14 +77,6 @@ func presentWorkingDir() string {
 	return currentDirPath
 }
 
-func getCurrentDirectory() string {
-	currentDirPath, _ := os.Getwd()
-
-	directories := strings.Split(currentDirPath, "/")
-
-	return directories[len(directories)-1]
-}
-
 func getPromt() string {
 
 	currUser, _ := user.Current()
@@ -81,7 +86,7 @@ func getPromt() string {
 	path := presentWorkingDir()
 
 	arr := strings.Split(path, "/")
-	//fmt.Println(arr)
+
 	flag := false
 
 	for _, val := range arr {
