@@ -4,17 +4,25 @@ import(
 	"encoding/json"
 	"fmt"
 	"os"
+	"time"
 )
 
-const DB_FILENAME = "database/db.json"
+const USER_DB_FILENAME = "database/users.json"
+const ENTRY_DB_FILENAME = "database/entries.json"
 
 type User struct {
 	Username string
 	Name string
 }
 
+type Entry struct {
+	Username string
+	Content string
+	InsertedAt time.Time
+}
+
 func getUsers() ([]User, error) {
-	data, err := os.ReadFile(DB_FILENAME)
+	data, err := os.ReadFile(USER_DB_FILENAME)
 	var users []User
 
 	if err == nil {
@@ -40,11 +48,11 @@ func FindUser(username string) (*User, error) {
 	return nil, err
 }
 
-func updateDB(data []User) {
+func updateUsersDB(data []User) {
 	bytes, err := json.Marshal(data)
 		
 	if err == nil {
-		os.WriteFile(DB_FILENAME, bytes, 0644)
+		os.WriteFile(USER_DB_FILENAME, bytes, 0644)
 	} else {
 		fmt.Println("Failed to save to DB file '%s'", err)
 	}
@@ -66,9 +74,50 @@ func CreateUser(username string, name string) (*User, error) {
 	
 	if err == nil {
 		users = append(users, newUser)
-		updateDB(users)
+		updateUsersDB(users)
 	}
 
 	return &newUser, err
+}
+
+func getEntries() ([]Entry, error) {
+	data, err := os.ReadFile(ENTRY_DB_FILENAME)
+
+	var entries []Entry
+
+	if err == nil {
+		json.Unmarshal(data, &entries)
+	}
+
+	return entries, err
+}
+
+func updateEntriesDB(data []Entry) error {
+	bytes, err := json.Marshal(data)
+
+	if err == nil {
+		os.WriteFile(ENTRY_DB_FILENAME, bytes, 0644)
+	} else {
+		fmt.Println("Failed to save to DB file '%s'", err)
+	}
+
+	return err
+}
+
+func CreateEntry(username string, content string) (*Entry, error) {
+	newEntry := Entry{
+		Username: username,
+		Content: content,
+		InsertedAt: time.Now(),
+	}
+
+	entries, err := getEntries()
+
+	if err == nil {
+		entries := append(entries, newEntry)
+		err = updateEntriesDB(entries)
+	}
+
+	return &newEntry, err
 }
 
