@@ -121,3 +121,19 @@ func CreateEntry(username string, content string) (*Entry, error) {
 	return &newEntry, err
 }
 
+func FindEntriesForUser(username string) []Entry {
+	entries, err := getEntries()
+
+	var data []Entry
+
+	if err == nil {
+		for index := 0; index < len(entries); index++ {
+			if entries[index].Username == username {
+				data = append(data, entries[index])
+			}
+		}
+	}
+
+	return data
+}
+
