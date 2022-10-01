@@ -9,6 +9,7 @@ import(
 
 const USER_DB_FILENAME = "database/users.json"
 const ENTRY_DB_FILENAME = "database/entries.json"
+var secret = getSecret()
 
 type User struct {
 	Username string
@@ -22,11 +23,13 @@ type Entry struct {
 }
 
 func getUsers() ([]User, error) {
-	data, err := os.ReadFile(USER_DB_FILENAME)
+	encryptedData, err := os.ReadFile(USER_DB_FILENAME)
+	data, err := decrypt(string(encryptedData), secret)
+
 	var users []User
 
 	if err == nil {
-		json.Unmarshal(data, &users)
+		json.Unmarshal([]byte(data), &users)
 	}
 	
 	return users, err
@@ -50,9 +53,10 @@ func FindUser(username string) (*User, error) {
 
 func updateUsersDB(data []User) {
 	bytes, err := json.Marshal(data)
-		
+	encryptedData, err := encrypt(string(bytes), secret)
+
 	if err == nil {
-		os.WriteFile(USER_DB_FILENAME, bytes, 0644)
+		os.WriteFile(USER_DB_FILENAME, []byte(encryptedData), 0644)
 	} else {
 		fmt.Println("Failed to save to DB file '%s'", err)
 	}
@@ -81,12 +85,13 @@ func CreateUser(username string, name string) (*User, error) {
 }
 
 func getEntries() ([]Entry, error) {
-	data, err := os.ReadFile(ENTRY_DB_FILENAME)
+	encryptedData, err := os.ReadFile(ENTRY_DB_FILENAME)
+	data, err := decrypt(string(encryptedData), secret)
 
 	var entries []Entry
 
 	if err == nil {
-		json.Unmarshal(data, &entries)
+		json.Unmarshal([]byte(data), &entries)
 	}
 
 	return entries, err
@@ -94,9 +99,10 @@ func getEntries() ([]Entry, error) {
 
 func updateEntriesDB(data []Entry) error {
 	bytes, err := json.Marshal(data)
-
+	encryptedData, err := encrypt(string(bytes), secret)
+	
 	if err == nil {
-		os.WriteFile(ENTRY_DB_FILENAME, bytes, 0644)
+		os.WriteFile(ENTRY_DB_FILENAME, []byte(encryptedData), 0644)
 	} else {
 		fmt.Println("Failed to save to DB file '%s'", err)
 	}
