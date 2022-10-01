@@ -26,4 +26,5 @@ func init() {
 	rootCmd.AddCommand(listCmd)
 
 	listCmd.Flags().StringVarP(&username, "username", "u", "", "Username for the user")
+	listCmd.MarkFlagRequired("username")
 }

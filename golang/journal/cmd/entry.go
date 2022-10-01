@@ -37,4 +37,7 @@ func init() {
 
 	entryCmd.Flags().StringVarP(&username, "username", "u", "", "Username for the user")
 	entryCmd.Flags().StringVarP(&add, "add", "a", "", "Add new journal entry")
+
+	entryCmd.MarkFlagRequired("username")
+	entryCmd.MarkFlagRequired("add")
 }
