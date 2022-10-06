@@ -49,16 +49,6 @@ func runCmd(command string, h history) {
 
 }
 
-// func newHistory() history {
-// 	return history{}
-// }
-
-// func printHistory() {
-// 	for i, cmd := range h {
-// 		fmt.Println(i+1, cmd)
-// 	}
-// }
-
 func getCurrentUser() string {
 	user, err := user.Current()
 	if err != nil {
