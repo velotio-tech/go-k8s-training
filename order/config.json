@@ -1,0 +1,4 @@
+{
+    "port": "8080",
+    "database_url": "mongodb://user1:user1pass@mongo:27017/?maxPoolSize=20&w=majority"
+}

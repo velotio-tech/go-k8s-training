@@ -1,0 +1,26 @@
+services:
+  user:
+    build: ../user
+    ports:
+      - "80:${USER_PORT}"
+    depends_on:
+      - mongo
+    environment:
+      - DATABASE_URL=mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongo:27017/?maxPoolSize=20&w=majority
+      - PORT=${USER_PORT}
+  order:
+    build: ../order
+    depends_on:
+      - mongo
+    environment:
+      - DATABASE_URL=mongodb://${DB_USERNAME}:${DB_PASSWORD}@mongo:27017/?maxPoolSize=20&w=majority
+      - PORT=${ORDER_PORT}
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db:/data/db:rw
