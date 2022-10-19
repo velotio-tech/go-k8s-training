@@ -1,0 +1,12 @@
+dependencies:
+- name: mongodb
+  repository: file://../services/mongodb
+  version: 0.1.0
+- name: users
+  repository: file://../services/users
+  version: 0.1.0
+- name: orders
+  repository: file://../services/orders
+  version: 0.1.0
+digest: sha256:c7ea909e9f25d02b032b51847f4bc5128af21ba7d85713d6fb8a87ede5f48dfe
+generated: "2022-10-19T13:30:04.989016+05:30"

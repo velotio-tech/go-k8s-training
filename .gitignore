@@ -1,1 +1,4 @@
 deploy/db
+deploy-k8s/ecommerce/charts/mongodb-0.1.0.tgz
+deploy-k8s/ecommerce/charts/orders-0.1.0.tgz
+deploy-k8s/ecommerce/charts/users-0.1.0.tgz
