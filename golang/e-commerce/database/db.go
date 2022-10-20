@@ -7,7 +7,7 @@ import(
 )
 
 func OpenDbConnection() *sql.DB {
-	db, err := sql.Open("postgres", "postgresql://postgres:postgres@localhost:5433/e_commerce?sslmode=disable")
+	db, err := sql.Open("postgres", "postgresql://postgres:postgres@e-commerce-db:5432/e_commerce?sslmode=disable")
 	if err != nil {
 		log.Fatalf("could not connect to database: %v", err)
 	}

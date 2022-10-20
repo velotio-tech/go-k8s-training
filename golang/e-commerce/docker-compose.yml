@@ -1,9 +1,28 @@
 version: "3.1"
 services:
-  db:
+  e-commerce-db:
     image: postgres:14
-    restart: always
+    container_name: e-commerce-db
     volumes:
       - ./database/data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - 5433:5432
+  user-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.user
+    container_name: user-app
+    ports:
+      - 8001:8001
+    depends_on:
+      - e-commerce-db
+  order-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.order
+    container_name: order-app
+    ports:
+      - 8002:8002
+    depends_on:
+      - e-commerce-db
+

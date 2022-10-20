@@ -1,0 +1,9 @@
+FROM golang:1.19
+
+WORKDIR /e-commerce
+
+COPY ./ ./
+RUN go build -o user-app ./user
+
+CMD "./user-app"
+
