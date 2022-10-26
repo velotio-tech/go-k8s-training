@@ -8,6 +8,9 @@ import (
 )
 
 func main() {
+
+	history := history{}
+
 	fmt.Println("__________Welcome to Interactive Linux Shell___________")
 	prompt := getPrompt()
 	fmt.Println(prompt)
@@ -18,11 +21,12 @@ func main() {
 			fmt.Println(err)
 		}
 		inputCommand = strings.TrimSuffix(inputCommand, "\n")
-		runCommand(inputCommand)
+		history = append(history, inputCommand)
+		runCommand(inputCommand, history)
 	}
 }
 
-func runCommand(inputCommand string) {
+func runCommand(inputCommand string, h history) {
 	tokens := strings.Fields(inputCommand)
 	command, arguments := tokens[0], tokens[1:]
 	switch command {
@@ -38,6 +42,8 @@ func runCommand(inputCommand string) {
 		}
 	case "cd":
 		changeDirectory(arguments[0])
+	case "history":
+		h.printHistory()
 	default:
 		fmt.Println("Invalid command, try again")
 	}
