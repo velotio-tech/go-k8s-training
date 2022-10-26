@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/user"
 )
@@ -22,12 +23,21 @@ func getListOfFilesAndDirectories() []string {
 	files, _ := os.ReadDir(".")
 	var response []string
 	for _, file := range files {
-		// fmt.Print(file.Name(), "\t")
 		response = append(response, file.Name())
 	}
 	return response
 }
 
+func changeDirectory(path string) {
+	err := os.Chdir(path)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("New Current Directory : " + getCurrentDirectory())
+	}
+}
+
 func exitShell() {
+	fmt.Println("Exiting the shell...")
 	os.Exit(0)
 }

@@ -13,25 +13,32 @@ func main() {
 	fmt.Println(prompt)
 	for {
 		reader := bufio.NewReader(os.Stdin)
-		command, err := reader.ReadString('\n')
+		inputCommand, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Println(err)
 		}
-		command = strings.TrimSuffix(command, "\n")
-		runCommand(command)
+		inputCommand = strings.TrimSuffix(inputCommand, "\n")
+		runCommand(inputCommand)
 	}
 }
 
-func runCommand(command string) {
-	if command == "exit" {
+func runCommand(inputCommand string) {
+	tokens := strings.Fields(inputCommand)
+	command, arguments := tokens[0], tokens[1:]
+	switch command {
+	case "exit":
 		exitShell()
-	} else if command == "pwd" {
+	case "pwd":
 		pwd := getCurrentDirectory()
 		fmt.Println(pwd)
-	} else if command == "ls" {
+	case "ls":
 		response := getListOfFilesAndDirectories()
-		fmt.Println(response)
-	} else {
+		for _, name := range response {
+			fmt.Println(name)
+		}
+	case "cd":
+		changeDirectory(arguments[0])
+	default:
 		fmt.Println("Invalid command, try again")
 	}
 }
