@@ -3,10 +3,11 @@ package cmd
 import "time"
 
 type User struct {
-	Name     string
-	Email    string
-	Password string
-	Journal  []*Entry
+	Name        string   `json:"name"`
+	Email       string   `json:"email"`
+	Password    string   `json:"password"`
+	LoginStatus bool     `json:"loginStatus"`
+	Journal     []*Entry `json:"journal"`
 }
 
 func NewUser(name, email, password string) *User {
@@ -14,9 +15,9 @@ func NewUser(name, email, password string) *User {
 }
 
 type Entry struct {
-	Id        int
-	CreatedAt string
-	Message   string
+	Id        int    `json:"id"`
+	CreatedAt string `json:"createdAt"`
+	Message   string `json:"message"`
 }
 
 func NewEntry(message string) *Entry {
