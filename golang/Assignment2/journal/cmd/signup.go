@@ -3,11 +3,11 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/jshiwam/journal/pkg"
 	"github.com/spf13/cobra"
 )
 
 var userName, password, email string
-var manager = Manager{}
 
 var signUpCmd = &cobra.Command{
 	Use:   "signup",
@@ -16,10 +16,13 @@ var signUpCmd = &cobra.Command{
   This command registers a new user to the journal.
   Usage: journal signup --user=<username> --passwd=<user password> --email=<user email>.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Signing Up: ", userName, password, email)
-		user := NewUser(userName, email, password)
-		manager.register(user)
-		manager.commit()
+		user := pkg.NewUser(userName, email, password)
+		err := manager.Register(user)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		fmt.Println("Sign up Successful", userName)
 	},
 }
 
