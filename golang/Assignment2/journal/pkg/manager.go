@@ -26,7 +26,6 @@ func checkFile(filename string) error {
 
 // TODO @shiwam: Figure out how to cache the data and not load the file everytime you run signup command
 func (m *Manager) LoadRegisteredUsers() error {
-	// fmt.Println("Loading all the registered Users")
 	err := checkFile(REGUSERS)
 	if err != nil {
 		return err
@@ -49,7 +48,6 @@ func (m *Manager) LoadRegisteredUsers() error {
 
 	json.Unmarshal(data, &m.registeredUsers)
 
-	// fmt.Println("Loading registered Users successful")
 	return nil
 }
 
@@ -133,6 +131,5 @@ func (m *Manager) Commit() error {
 	if err != nil {
 		return err
 	}
-	// fmt.Println("Data saved to file successfully")
 	return nil
 }

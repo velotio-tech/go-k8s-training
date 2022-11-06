@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Ref : https://www.golinuxcloud.com/golang-encrypt-decrypt/
 // decrypt from base64 to decrypted string
 func Decrypt(encrypttext string) (string, error) {
 	keyString := viper.GetString("key")
@@ -18,7 +19,7 @@ func Decrypt(encrypttext string) (string, error) {
 		return "", err
 	}
 	ciphertext, _ := base64.RawStdEncoding.DecodeString(encrypttext)
-	// fmt.Println(len(ciphertext), aes.BlockSize)
+
 	// The IV needs to be unique, but not secure. Therefore it's common to
 	// include it at the beginning of the ciphertext.
 	if len(ciphertext) < aes.BlockSize {
