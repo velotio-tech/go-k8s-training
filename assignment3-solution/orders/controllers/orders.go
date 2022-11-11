@@ -18,6 +18,16 @@ type Order struct {
 
 var newOrder Order
 
+func Db_connectivity() *sql.DB {
+	// add data to database
+	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
+	if err != nil {
+		fmt.Println("Error during db connection", err)
+	}
+
+	return db
+}
+
 func CreateOrders(context *gin.Context) {
 
 	uname := context.Param("username")
@@ -30,11 +40,7 @@ func CreateOrders(context *gin.Context) {
 	// send this to calling function and it will store it in the database
 	fmt.Println("uname: ", uname, newOrder.OrderId, newOrder.OrderName, newOrder.Price)
 
-	// add data to database
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during db connection", err)
-	}
+	db := Db_connectivity()
 
 	// wrapping here into string
 	query := "insert into orders VALUES (" + strconv.Itoa(int(newOrder.OrderId)) + ", '" + newOrder.OrderName + "', " + strconv.Itoa(int(newOrder.Price)) + ", '" + uname + "')"
@@ -52,36 +58,30 @@ func CreateOrders(context *gin.Context) {
 }
 
 func GetAllOrders(context *gin.Context) {
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	uname := context.Param("username")
 
-	rows, err := db.Query("select * from orders")
+	db := Db_connectivity()
+
+	rows, _ := db.Query("select * from orders where username = ?", uname)
+
 	// Loop through rows, using Scan to assign column data to struct fields.
-	var uname string
 	for rows.Next() {
 		err := rows.Scan(&newOrder.OrderId, &newOrder.OrderName, &newOrder.Price, &uname)
 		if err != nil {
 			fmt.Println("Error while fetching records!", err)
 		}
-		context.IndentedJSON(http.StatusOK, newOrder)
+		context.JSON(http.StatusOK, newOrder)
 	}
 	defer db.Close()
 }
 
 func GetOrderByOrderId(context *gin.Context) {
 	uname := context.Param("username")
-
 	oid := context.Param("order_id")
-	fmt.Println("splitting oname : ", oid)
 
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	db := Db_connectivity()
 
-	err = db.QueryRow("select * from orders where order_id = ? and username=?", oid, uname).Scan(&newOrder.OrderId, &newOrder.OrderName, &newOrder.Price, &uname)
+	err := db.QueryRow("select * from orders where order_id = ? and username=?", oid, uname).Scan(&newOrder.OrderId, &newOrder.OrderName, &newOrder.Price, &uname)
 	if err != nil {
 		fmt.Println("Getting error from db", err)
 		context.IndentedJSON(http.StatusNotFound, err)
@@ -102,10 +102,7 @@ func UpdateOrder(context *gin.Context) {
 
 	fmt.Println(uname, oid, newOrder.OrderName)
 
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	db := Db_connectivity()
 
 	rows, err := db.Query("update orders set order_name=? where order_id=? AND username=?", newOrder.OrderName, oid, uname) //.Scan(&newOrder.OrderId, &newOrder.OrderName, &newOrder.Price, &uname)
 	if err != nil {
@@ -121,10 +118,7 @@ func DeleteAllOrders(context *gin.Context) {
 
 	uname := context.Param("username")
 
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	db := Db_connectivity()
 
 	rows, err := db.Query("delete from orders where username=?", uname)
 	// Loop through rows, using Scan to assign column data to struct fields.
@@ -143,13 +137,9 @@ func DeleteOrder(context *gin.Context) {
 	uname := context.Param("username")
 	oid := context.Param("order_id")
 
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	db := Db_connectivity()
 
 	rows, err := db.Query("delete from orders WHERE order_id = ? AND username=?", oid, uname)
-	// Loop through rows, using Scan to assign column data to struct fields.
 
 	if err != nil {
 		fmt.Println("Error while fetching records!", err)

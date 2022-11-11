@@ -14,10 +14,18 @@ type User struct {
 	Username string `json:"username"`
 	Name     string `json:"name"`
 	Email    string `json:"email"`
-	//CreationDate string `json:"date"`
 }
 
 var newUser User
+
+func Db_connectivity() *sql.DB {
+	// add data into database
+	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
+	if err != nil {
+		fmt.Println("Error during connection establishment!", err)
+	}
+	return db
+}
 
 func CreateUser(context *gin.Context) {
 
@@ -30,11 +38,7 @@ func CreateUser(context *gin.Context) {
 	fmt.Println("User details:")
 	fmt.Println("username:", newUser.Username, "\nname:", newUser.Name, "\nemail:", newUser.Email)
 
-	// add data into database
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	db := Db_connectivity()
 
 	// wrapping here into string
 	_, err = db.Exec("insert into user VALUES ('" + newUser.Username + "', '" + newUser.Name + "', '" + newUser.Email + "')")
@@ -56,12 +60,9 @@ func GetUser(context *gin.Context) {
 	uname = str[1]
 	fmt.Println(uname)
 
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	db := Db_connectivity()
 
-	err = db.QueryRow("select * from user where username = ?", uname).Scan(&newUser.Username, &newUser.Name, &newUser.Email)
+	err := db.QueryRow("select * from user where username = ?", uname).Scan(&newUser.Username, &newUser.Name, &newUser.Email)
 	if err != nil {
 		fmt.Println("Getting error from db", err)
 		context.IndentedJSON(http.StatusNotFound, newUser)
@@ -72,12 +73,9 @@ func GetUser(context *gin.Context) {
 }
 
 func GetAllUsers(context *gin.Context) {
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	db := Db_connectivity()
 
-	rows, err := db.Query("select * from user")
+	rows, _ := db.Query("select * from user")
 
 	// Loop through rows, using Scan to assign column data to struct fields.
 	for rows.Next() {
@@ -99,10 +97,7 @@ func DeleteUser(context *gin.Context) {
 	uname = str[1]
 	fmt.Println(uname)
 
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	db := Db_connectivity()
 
 	var userData User
 	res, err := db.Exec("DELETE from user where username = ?", uname)
@@ -127,13 +122,10 @@ func GetUserMeta(context *gin.Context) {
 	uname = str[1]
 	fmt.Println(uname)
 
-	db, err := sql.Open("mysql", "root:root123@tcp(127.17.0.1:3306)/userdb")
-	if err != nil {
-		fmt.Println("Error during connection establishment!", err)
-	}
+	db := Db_connectivity()
 
 	var userData User
-	err = db.QueryRow("select * from user where username = ?", uname).Scan(&userData.Username, &userData.Name, &userData.Email)
+	err := db.QueryRow("select * from user where username = ?", uname).Scan(&userData.Username, &userData.Name, &userData.Email)
 	if err != nil {
 		fmt.Println("Error while getting rows, ", err)
 		context.IndentedJSON(http.StatusNotFound, userData)
