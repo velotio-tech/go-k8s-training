@@ -22,5 +22,5 @@ func main() {
 	router.DELETE("/user/:username/orders", controllers.DeleteAllOrders)
 	router.DELETE("/user/:username/orders/:order_id", controllers.DeleteOrder)
 
-	router.Run("localhost:9090")
+	router.Run(":9090")
 }

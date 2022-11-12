@@ -91,7 +91,7 @@ func GetAllUsers(context *gin.Context) {
 }
 
 func DeleteUser(context *gin.Context) {
-	// get the username first
+	// get the username
 	uname := context.Param("username")
 	str := strings.Split(uname, "=")
 	uname = str[1]
@@ -116,7 +116,7 @@ func DeleteUser(context *gin.Context) {
 }
 
 func GetUserMeta(context *gin.Context) {
-	// get the username first
+	// get the username
 	uname := context.Param("username")
 	str := strings.Split(uname, "=")
 	uname = str[1]

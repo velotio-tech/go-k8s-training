@@ -64,7 +64,6 @@ func GetAllOrders(context *gin.Context) {
 
 	// Generate a request for order service
 	// before this check whether the user exists
-
 	db := Db_connectivity()
 
 	err := db.QueryRow("select * from user where username = ?", uname).Scan(&newUser.Username, &newUser.Name, &newUser.Email)
