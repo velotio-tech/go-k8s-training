@@ -1,0 +1,19 @@
+docker run --name mongo \
+    --rm \
+    --network microservice \
+    -d \
+    -v data:\/data/db mongodb
+
+docker run --name order-app \
+    --rm \
+    --network microservice \
+    -d \
+    order 
+
+docker run --name user-app \
+    --rm \
+    --network microservice \
+    -d \
+    -p 8080:8080 \
+    user
+    

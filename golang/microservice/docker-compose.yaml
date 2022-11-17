@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - data:/data/db
+  order-app:
+    build: ./order
+    depends_on:
+      - mongodb
+  user-app:
+    build: ./user
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongodb
+
+volumes:
+  data:
