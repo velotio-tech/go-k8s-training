@@ -1,0 +1,13 @@
+   docker pull nginx
+
+3 ) docker run --name nginx-setup --rm -d -p 8080:80 nginx
+
+
+4 ) docker run --name nginx-setup --rm -d -p 8080:80 -v $(pwd):/usr/share/nginx/html nginx
+
+5 ) docker run --name mysql-server --rm -d -e MYSQL_USER=root -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=password -v mysql-data:/var/lib/mysql mysql
+
+   docker run --name mysql-backup --rm -d -e MYSQL_USER=root -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=password -v mysql-data:/var/lib/mysql mysql
+   
+ 
+
