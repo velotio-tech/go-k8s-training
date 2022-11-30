@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-webapp-deploy
+  labels:
+    app: orders-webapp
+spec:
+  selector:
+    matchLabels:
+      app: orders-webapp
+  template:
+    metadata:
+      labels:
+        app: orders-webapp
+    spec:
+      containers:
+      - name: orders-container
+        image: {{ .Values.ordersWebapp.image.repository }}
+        env:
+        - name: ORDER_SVC_HOST
+          value: "orders-app-host"
+        - name: ORDER_SVC_PORT
+          value: "9091"
+        - name: MYSQL_SVC_NAME
+          value: "mysql-set-0.mysql"
+        ports:
+        - containerPort: 9091
+          name: orders-webapp

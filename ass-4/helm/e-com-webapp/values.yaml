@@ -1,0 +1,22 @@
+# Default values for e-com-webapp.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+usersWebapp:
+  image:
+    repository: docker.io/priyankass99/users-api
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
+  service:
+    type: NodePort
+
+ordersWebapp:
+  image:
+    repository: docker.io/priyankass99/orders-api
+    pullPolicy: Always
+    tag: "latest"
+
+  service:
+    type: NodePort

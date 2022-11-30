@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-webapp-service
+  labels:
+    app: orders-webapp
+spec:
+  type: {{ .Values.ordersWebapp.service.type }}
+  ports:
+  - port: 9091
+    targetPort: 9091
+  selector:
+    app: orders-webapp

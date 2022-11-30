@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-webapp-deploy
+  labels:
+    name: users-webapp
+spec:
+  selector:
+    matchLabels:
+      app: users-webapp
+  template:
+    metadata:
+      labels:
+        app: users-webapp
+    spec:
+      containers:
+      - name: users-api-container
+        image: docker.io/priyankass99/users-api
+        env:
+        - name: SVC_HOST_NAME
+          value: "users-app-host"
+        - name: SVC_HOST_PORT
+          value: "9090"
+        ports:
+        - containerPort: 9090
+          name: users-webapp

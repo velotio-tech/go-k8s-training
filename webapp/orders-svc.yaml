@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-webapp-service
+  labels:
+    app: orders-webapp
+spec:
+  type: NodePort
+  selector:
+    app: orders-webapp
+  ports:
+  - port: 9091
+    targetPort: 9091

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-webapp-deploy
+  labels:
+    app: users-webapp
+spec:
+  selector:
+    matchLabels:
+      app: users-webapp
+  template:
+    metadata:
+      labels:
+        app: users-webapp
+    spec:
+      containers:
+      - name: users-api-container
+        image: {{ .Values.usersWebapp.image.repository }}
+        env:
+        - name: USERS_SVC_HOST
+          value: "users-app-host"
+        - name: USERS_SVC_PORT
+          value: "9090"
+        - name: MYSQL_SVC_NAME
+          value: "mysql-set-0.mysql"
+        ports:
+        - containerPort: 9090
+          name: users-webapp
