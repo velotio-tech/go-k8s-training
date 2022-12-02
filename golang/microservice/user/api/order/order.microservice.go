@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -46,7 +47,9 @@ func (oms orderMicroService) AddItemHandler(ctx *gin.Context) {
 		return
 	}
 
-	response, err := http.Post("http://order-app:9090/addOrderItem", "application/json", &body)
+	orderAPIUrl := "http://" + os.Getenv("ORDER_API_URL") + ":9090"
+
+	response, err := http.Post(orderAPIUrl+"/addOrderItem", "application/json", &body)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
@@ -91,7 +94,9 @@ func (oms orderMicroService) GetAllOrderHandler(ctx *gin.Context) {
 		return
 	}
 
-	response, err := http.Post("http://order-app:9090/getAllOrder", "application/json", &body)
+	orderAPIUrl := "http://" + os.Getenv("ORDER_API_URL") + ":9090"
+
+	response, err := http.Post(orderAPIUrl+"/getAllOrder", "application/json", &body)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
@@ -136,7 +141,9 @@ func (oms orderMicroService) GetOrderHandler(ctx *gin.Context) {
 		return
 	}
 
-	response, err := http.Post("http://order-app:9090/getOrder", "application/json", &body)
+	orderAPIUrl := "http://" + os.Getenv("ORDER_API_URL") + ":9090"
+
+	response, err := http.Post(orderAPIUrl+"/getOrder", "application/json", &body)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
@@ -180,7 +187,9 @@ func (oms orderMicroService) DeleteAllOrderHandler(ctx *gin.Context) {
 		return
 	}
 
-	response, err := http.Post("http://order-app:9090/deleteAllOrder", "application/json", &body)
+	orderAPIUrl := "http://" + os.Getenv("ORDER_API_URL") + ":9090"
+
+	response, err := http.Post(orderAPIUrl+"/deleteAllOrder", "application/json", &body)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
@@ -225,7 +234,9 @@ func (oms orderMicroService) DeleteOrderHandler(ctx *gin.Context) {
 		return
 	}
 
-	response, err := http.Post("http://order-app:9090/deleteOrder", "application/json", &body)
+	orderAPIUrl := "http://" + os.Getenv("ORDER_API_URL") + ":9090"
+
+	response, err := http.Post(orderAPIUrl+"/deleteOrder", "application/json", &body)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),

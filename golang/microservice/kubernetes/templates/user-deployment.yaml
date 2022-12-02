@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Value.user.deployment.name}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Value.user.label}}
+  template:
+    metadata:
+      labels:
+        app: {{.Value.user.label}}
+    spec:
+      containers:
+      - name: {{.Value.user.deployment.container.name}}
+        image: {{.Value.user.deployment.container.image}}
+        resources: {}
+        ports:
+        - containerPort: {{.Value.user.deployment.container.port}}
+        env:
+          - name: MONGO_DNS_URL
+            value: "mongodb-0.db-service"
+          - name: ORDER_API_URL
+            value: "order-service"
+

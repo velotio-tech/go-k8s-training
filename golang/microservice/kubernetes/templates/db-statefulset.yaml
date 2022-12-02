@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{.Value.db.deployment.name}}
+spec:
+  selector:
+    matchLabels:
+      app: mongo
+  serviceName: {{.Value.db.service.name}}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo
+        ports:
+        - containerPort: {{.Value.db.service.port}}
+          name: mongo
+        volumeMounts:
+        - name: pvc
+          mountPath: /data/db
+  volumeClaimTemplates:
+  - metadata:
+      name: pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

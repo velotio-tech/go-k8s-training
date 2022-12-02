@@ -1,0 +1,32 @@
+db:
+  service:
+    name: db-service
+    port: 27017
+  deployment:
+    name: mongo-statefulset
+    container:
+      image: mongo
+      port: 27017
+
+order:
+  label: order
+  service:
+    name: order-service
+    port: 9090
+  deployment:
+    name: order-deployment
+    container:
+      name: order
+      image: ajaykumbhar/microservice-order:latest
+      port: 9090
+
+user:
+  service:
+    name: user-service
+    port: 8080
+  deployment:
+    name: user-deployment
+    container: 
+      name: user
+      image: ajaykumbhar/microservice-user:latest
+      port: 8080

@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resouce
+  labels:
+    name: ingress-resouce
+spec:
+  defaultBackend:
+    service:
+        name: nginx-ingress
+        port:
+            number: 80
+

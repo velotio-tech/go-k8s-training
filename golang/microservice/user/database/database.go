@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -29,7 +30,7 @@ func Init() (*DataSource, error) {
 
 func initMongoDB() (*mongo.Client, error) {
 
-	uri := "mongodb://mongodb:27017"
+	uri := "mongodb://" + os.Getenv("MONGO_DNS_URL") + ":27017"
 
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
