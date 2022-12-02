@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: busybox-cm
+  name: busybox-cm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-cm
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: busybox-cm
+    spec:
+      containers:
+      - image: busybox
+        name: busybox
+        resources: {}
+        env:
+          - name: env1
+            valueFrom:
+              configMapKeyRef:
+                name: velotio-cm
+                key: env1
+
+status: {}

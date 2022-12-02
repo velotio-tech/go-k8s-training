@@ -1,0 +1,88 @@
+------------------------------------------------------
+[1]
+------------------------------------------------------ 
+
+>> kubectl create namespace velotio-ajay
+
+
+********************* or ****************************
+
+[namespace.yaml] 
+
+>> kubectl create -f namespace.yaml
+
+>> kubectl config set-context $(kubectl config current-context) --namespace=velotio-ajay
+
+------------------------------------------------------
+[2]
+------------------------------------------------------
+
+>> kubectl run nginx --image=nginx --port=80 --labels="aoo=velotio"
+
+********************* or ****************************
+
+[pod.yaml]
+
+>> kubectl create -f pod.yaml
+
+------------------------------------------------------
+[3]
+------------------------------------------------------
+
+>> kubectl create deployment nginx-deployment --image=nginx:1.7.8 --replicas=2 --port=80
+
+********************* or ****************************
+
+[nginx-deployment.yaml]
+
+>> kubectl create -f pod.yaml
+
+
+------------------------------------------------------
+[4] [5]
+------------------------------------------------------
+
+[nginx-deployment.yaml][change image version 1.7.8 to 1.7.9]
+
+>> kubectl replace -f pod.yaml
+
+>> kubectl rollout history deployment/nginx-deployment
+
+------------------------------------------------------
+[6]
+------------------------------------------------------
+
+kubectl create configmap velotio-cm --from-literal=env1=key1
+
+------------------------------------------------------
+[7]
+------------------------------------------------------
+
+kubectl create -f deployment-busybox.yaml
+
+
+------------------------------------------------------
+[8]
+------------------------------------------------------
+
+kubectl create configmap cmvolume \
+    --from-literal=key1=value \
+    --from-literal=key2=value2
+
+kubectl create -f deployment-busybox2.yaml
+
+
+
+------------------------------------------------------
+[9]
+------------------------------------------------------
+
+kubectl create secret velotio-secret \
+    --from-literal=USERNAME=velotiotech \ 
+    --from-literal=PASSWORD=Test@123
+
+kubectl create -f deployment-busybox-secret.yaml
+
+
+
+
