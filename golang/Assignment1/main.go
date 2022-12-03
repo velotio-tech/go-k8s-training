@@ -128,8 +128,10 @@ func (h Help) Execute() (string, error) {
 	helpstr := `
 	ls : list of dir/files in the current dir
 	pwd : Gives current working dir
-	exit : Exit the CLI
+	exit : Exit the shell
 	cd <destination> : Go to destination dir
+	history : Display History of the commands used
+	help : describes all the available commands in the shell
 	`
 	return helpstr, nil
 }
@@ -171,7 +173,7 @@ func CommandFactory(words []string) Command {
 }
 
 func main() {
-	fmt.Println("Go CLI started")
+	fmt.Println("Go Shell started")
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for i := ""; i != exit; {
