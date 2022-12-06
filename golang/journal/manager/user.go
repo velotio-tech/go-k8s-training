@@ -99,3 +99,45 @@ func LogIn(email string, password string) error {
 	}
 	return nil
 }
+
+func LogOut(email string) error {
+	err := helper.CheckFile("data")
+	helper.Check(err)
+
+	cipher, err := os.ReadFile("data")
+	helper.Check(err)
+
+	u := User{}
+	var newData string = ""
+	var count int = 0
+	if len(cipher) != 0 {
+		str, _ := crypt.Decrypt(string(cipher))
+		strSlice := strings.Split(str[1:len(str)-1], "},{")
+		for index, data := range strSlice {
+			if index == 0 {
+				data = data + "}"
+			} else if index == len(strSlice)-1 {
+				data = "{" + data
+			} else {
+				data = "{" + data + "}"
+			}
+			json.Unmarshal([]byte(data), &u)
+			if u.Email == email && u.IsLoggedIn {
+				u.IsLoggedIn = false
+				s, _ := json.Marshal(u)
+				data = string(s)
+				count = count + 1
+			}
+			newData = newData + "," + data
+		}
+		if count == 0 {
+			return errors.New("Email does not exits or you are not logged in")
+		}
+		newData = "[" + newData[1:] + "]"
+		helper.EncryptAndAppendToFile([]byte(newData), "data")
+		fmt.Println(newData)
+	} else {
+		return errors.New("Email does not exits")
+	}
+	return nil
+}
