@@ -3,8 +3,6 @@ package cmd
 import (
 	"fmt"
 
-	"journal/manager"
-
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +11,7 @@ var listCmd = &cobra.Command{
 	Short: "List all entries of a User",
 	Long:  `This command helps user to list entries in the journal.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		manager.ListEntry(Email)
+		// manager.ListEntry(Email)
 		fmt.Println("All Entries printed successfully")
 	},
 }

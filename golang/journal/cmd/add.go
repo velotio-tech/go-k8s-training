@@ -3,8 +3,6 @@ package cmd
 import (
 	"fmt"
 
-	"journal/manager"
-
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +11,7 @@ var addCmd = &cobra.Command{
 	Short: "Add user entries to the journal",
 	Long:  `This command helps user to add entries to the journal.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		manager.AddEntry(Message)
+		// manager.AddEntry(Message)
 		fmt.Println("Entry added successfully")
 	},
 }
