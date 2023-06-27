@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:alpine
+    container_name: "database"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=store
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    networks:
+      - fullstack
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+      
+  web:
+    build: .
+    container_name: "app"
+    command: ["go", "run", "main.go"]
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - fullstack
+
+volumes:
+  database_postgres:
+
+networks:
+  fullstack:
+    driver: bridge
