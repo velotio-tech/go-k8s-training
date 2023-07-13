@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-app-deployment
+  labels:
+    app: backend-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-app
+  template:
+    metadata:
+      labels:
+        app: backend-app
+    spec:
+      containers:
+      - name: backend-app
+        image: pratikpjain/app
+        env:
+          - name: SVC_HOST_NAME
+            value: "backend-app"
+          - name: SVC_HOST_PORT
+            value: "8080"
+        ports:
+        - containerPort: 80
