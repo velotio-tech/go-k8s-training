@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backendapp-service
+spec:
+  selector:
+    app.kubernetes.io/name: backend-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
