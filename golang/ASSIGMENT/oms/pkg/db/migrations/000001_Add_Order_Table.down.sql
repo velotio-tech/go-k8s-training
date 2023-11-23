@@ -1,0 +1,6 @@
+BEGIN;
+DROP TABLE IF EXISTS "orders";
+DROP FUNCTION IF EXISTS update_modified_column;
+DROP TRIGGER [IF EXISTS] update_order
+ON "orders" [ CASCADE | RESTRICT ];
+COMMIT;

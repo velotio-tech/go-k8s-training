@@ -1,0 +1,20 @@
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS "users" (
+    "ID" VARCHAR PRIMARY KEY,
+    "name" VARCHAR NOT NULL,
+    "email" VARCHAR NOT NULL,
+    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updatedAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+);
+
+CREATE OR REPLACE FUNCTION update_modified_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW."updatedAt" = now();
+    RETURN NEW;
+END;
+
+CREATE TRIGGER update_user BEFORE UPDATE ON "users" FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
+COMMIT;

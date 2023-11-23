@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  oms:
+    build: ./oms
+    # You can add other configurations for this service
+
+  ums:
+    build: ./ums
+    # You can add other configurations for this service

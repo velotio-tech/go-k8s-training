@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+option go_package = "./;pb";
+
+
+message Order {
+    string ID = 1; 
+    string buyerUserID = 2; 
+    string status = 3; 
+    uint64 totalAmount = 4;
+    string createdAt = 5;
+    string updatedAt = 6;
+    repeated Product products = 7;
+    string paymentID = 8;
+}
+
+message Product {
+    string productID = 1;
+    int32 quantity = 2;
+    float finalPrice = 3;
+}
+
+message OrderCreateResponse {
+    string ID = 1;
+}
+
+message OrderGetRequest {
+    string orderID = 1;
+}
+
+message OrderGetResponse {
+    Order order = 1;
+}
+
+message OrdersGetRequest {
+    string buyerUserID = 1;
+}
+
+message OrdersGetResponse {
+    repeated Order orders = 1;
+}
+
+message DeleteOrderByOrderIDRequest {
+    string orderID = 1;
+}
+
+message DeleteOrderByOrderIDResponse{}
+
+
+message DeleteOrdersByBuyerIDRequest {
+    string buyerID = 1;
+}
+
+message DeleteOrdersByBuyerIDResponse{}
+
+service OrderManagement {
+    rpc GetOrder(OrderGetRequest) returns (OrderGetResponse) {}
+    rpc GetOrders(OrdersGetRequest) returns (OrdersGetResponse) {}
+    rpc CreateOrder(Order) returns (OrderCreateResponse) {}
+    rpc DeleteOrder( DeleteOrderByOrderIDRequest) returns (DeleteOrderByOrderIDResponse) {}
+    rpc DeleteOrders( DeleteOrdersByBuyerIDRequest) returns (DeleteOrdersByBuyerIDResponse) {}
+}
